@@ -1,0 +1,291 @@
+//
+// Custom Variables
+//
+
+/////////////
+// General //
+/////////////
+
+// Main
+$app-dark-mode-body-bg-color: #151521;
+
+// Header base
+$app-header-base-height: 96px;
+$app-header-base-height-mobile: 70px;
+$app-header-base-border-when-toolbar-enabled: $border-dashed-color;
+
+// Header primary
+$app-header-primary-base-height: 80px;
+
+// Header secondary
+$app-header-secondary-base-height: 67px;
+$app-header-secondary-sticky-box-shadow: if(isDarkMode(), none, 0px 10px 30px 0px rgba(82,63,105,0.05));
+
+// Toolbar base
+$app-toolbar-base-height: 60px;
+$app-toolbar-base-height-mobile: auto;
+$app-toolbar-sticky-height: 60px;
+$app-toolbar-sticky-bg-color: if(isDarkMode(), darken(#1e1e2d, 2%), $white);
+$app-toolbar-sticky-bg-color-mobile: $app-toolbar-base-bg-color;
+$app-toolbar-sticky-box-shadow: if(isDarkMode(), none, 0px 10px 30px 0px rgba(82,63,105,0.05));
+$app-toolbar-sticky-box-shadow-mobile: $app-toolbar-base-box-shadow;
+
+// Sidebar base
+$app-sidebar-base-width: 300px;
+$app-sidebar-base-width-mobile: 250px; 
+
+// Sidebar menu
+$app-sidebar-menu-link-padding-x: 14px;
+$app-sidebar-menu-indention: 15px;
+
+// Sidebar logo icon
+$app-sidebar-logo-icon-custom-hover-color: $primary;
+
+// Footer
+$app-footer-height: auto;
+$app-footer-height-mobile: auto;
+
+// Scrolltop
+$scrolltop-bottom: 42px;
+$scrolltop-bottom-mobile: 23px;
+$scrolltop-end: 7px;
+$scrolltop-end-mobile: 5px;
+
+// Layout builder toggle
+$app-layout-builder-toggle-end: 50px;
+$app-layout-builder-toggle-end-mobile: 40px;
+$app-layout-builder-toggle-bottom: 40px;
+$app-layout-builder-toggle-bottom-mobile: 20px;
+
+    
+/////////////
+// Layouts //
+/////////////
+
+// Light sidebar
+$app-light-sidebar-page-bg-color:  if(isDarkMode(), $app-dark-mode-body-bg-color, $white);
+
+$app-light-sidebar-bg-color: if(isDarkMode(), $body-bg, #F8F6F2);
+
+$app-light-sidebar-logo-icon-custom-color: $gray-400;
+
+$app-light-sidebar-scrollbar-color: if(isDarkMode(), $gray-300, darken($gray-100, 4%));
+$app-light-sidebar-scrollbar-color-hover: if(isDarkMode(), lighten($gray-300, 3%), darken($gray-100, 5%));
+
+$app-light-sidebar-separator-color: if(isDarkMode(), #2D2D43,#E0E0DE);
+
+$app-light-sidebar-btn-custom-color: if(isDarkMode(), $gray-700, $gray-500);
+$app-light-sidebar-btn-custom-bg-color: if(isDarkMode(), $gray-300, #F0E8D9);
+$app-light-sidebar-btn-custom-bg-color-active: if(isDarkMode(), $gray-200, darken(#F0E8D9, 2%));
+
+$app-light-sidebar-select-custom-color: if(isDarkMode(), $gray-600, $gray-400);
+$app-light-sidebar-select-custom-bg-color: if(isDarkMode(), $gray-300, $white);
+
+$app-light-sidebar-menu-heading-color: $gray-400;
+
+$app-light-sidebar-menu-root-link-color:  $gray-700;
+$app-light-sidebar-menu-root-icon-color:  $gray-400;
+$app-light-sidebar-menu-root-bullet-color: $gray-300;
+$app-light-sidebar-menu-root-arrow-color: $gray-500;
+
+$app-light-sidebar-menu-root-link-color-hover:  $gray-800;
+$app-light-sidebar-menu-root-icon-color-hover:  $gray-500;
+$app-light-sidebar-menu-root-bullet-color-hover: $gray-400;
+$app-light-sidebar-menu-root-arrow-color-hover: $gray-600;
+
+$app-light-sidebar-menu-link-color:  $gray-700;
+$app-light-sidebar-menu-icon-color:  $gray-500;
+$app-light-sidebar-menu-bullet-color: $gray-300;
+$app-light-sidebar-menu-arrow-color: $gray-500;
+
+$app-light-sidebar-menu-link-color-hover: $gray-800;
+$app-light-sidebar-menu-icon-color-hover:  $gray-500;
+$app-light-sidebar-menu-bullet-color-hover: $gray-400;
+$app-light-sidebar-menu-arrow-color-hover: $gray-600;
+
+$app-light-sidebar-header-search-icon-color: $gray-700;
+$app-light-sidebar-header-search-input-color: $gray-700;
+$app-light-sidebar-header-search-input-border-color: if(isDarkMode(), $gray-300, #EFE9E1); 
+$app-light-sidebar-header-search-input-placeholder-color: $gray-400;
+
+$app-light-sidebar-header-navbar-btn-custom-color: $gray-700;
+$app-light-sidebar-header-navbar-btn-custom-icon-color: $gray-700;
+$app-light-sidebar-header-navbar-btn-custom-border-color: if(isDarkMode(), $gray-200, #EFE9E1);
+
+// Dark sidebar
+$app-dark-sidebar-page-bg-color: if(isDarkMode(), $app-dark-mode-body-bg-color, $white);
+
+$app-dark-sidebar-logo-icon-custom-color: $gray-400;
+
+$app-dark-sidebar-bg-color: if(isDarkMode(), $body-bg, #161514);
+
+$app-dark-sidebar-avatar-name-color:#928F8C;
+$app-dark-sidebar-avatar-deckription-color:#6A6663;
+$app-dark-sidebar-avatar-name-color-hover: $primary;
+$app-dark-sidebar-avatar-icon-custom-color: $gray-400;
+
+$app-dark-sidebar-scrollbar-color: if(isDarkMode(), $gray-300, rgba($white, 0.1));
+$app-dark-sidebar-scrollbar-color-hover: if(isDarkMode(), lighten($gray-300, 3%), rgba($white, 0.15));
+
+$app-dark-sidebar-separator-color: if(isDarkMode(), #2D2D43,#302E2C);
+
+$app-dark-sidebar-btn-custom-color: if(isDarkMode(), $gray-700,#7A7269);
+$app-dark-sidebar-btn-custom-bg-color: if(isDarkMode(), $gray-300, #393837);
+$app-dark-sidebar-btn-custom-bg-color-active: if(isDarkMode(), $gray-200, $danger);
+$app-dark-sidebar-btn-custom-color-active: $white; 
+
+$app-dark-sidebar-select-custom-color: if(isDarkMode(), $gray-600, #646463);
+$app-dark-sidebar-select-custom-bg-color: if(isDarkMode(), $gray-300, rgba(#2B2928, 0.6)); 
+
+$app-dark-sidebar-menu-heading-color: darken(#818181, 12%);
+
+$app-dark-sidebar-menu-root-link-color:  #818181;
+$app-dark-sidebar-menu-root-icon-color:  #777674;
+$app-dark-sidebar-menu-root-bullet-color: #777674;
+$app-dark-sidebar-menu-root-arrow-color: #777674;
+
+$app-dark-sidebar-menu-root-link-color-hover: lighten(#818181, 8%);  
+$app-dark-sidebar-menu-root-icon-color-hover:  lighten(#777674, 8%);  
+$app-dark-sidebar-menu-root-bullet-color-hover: lighten(#777674, 8%);  
+$app-dark-sidebar-menu-root-arrow-color-hover: lighten(#777674, 8%);  
+
+$app-dark-sidebar-menu-link-color:  #747372;
+$app-dark-sidebar-menu-icon-color:  #53514F;
+$app-dark-sidebar-menu-bullet-color: #53514F;
+$app-dark-sidebar-menu-arrow-color: #53514F;
+
+$app-dark-sidebar-menu-link-sub-title-color: #747372;
+
+$app-dark-sidebar-menu-link-color-hover: lighten(#747372, 8%);  
+$app-dark-sidebar-menu-icon-color-hover:  lighten(#53514F, 8%);  
+$app-dark-sidebar-menu-bullet-color-hover: lighten(#53514F, 8%);  
+$app-dark-sidebar-menu-arrow-color-hover: lighten(#53514F, 8%);  
+
+$app-dark-sidebar-header-search-icon-color: $gray-700;
+$app-dark-sidebar-header-search-input-color: $gray-700;
+$app-dark-sidebar-header-search-input-border-color: if(isDarkMode(), $gray-300, #EFE9E1);
+$app-dark-sidebar-header-search-input-placeholder-color: $gray-400;
+
+$app-dark-sidebar-header-navbar-btn-custom-color: $gray-700;
+$app-dark-sidebar-header-navbar-btn-custom-icon-color: $gray-700;
+$app-dark-sidebar-header-navbar-btn-custom-border-color: if(isDarkMode(), $gray-200, #EFE9E1);
+
+// Light header
+$app-light-header-page-bg-color: if(isDarkMode(), $app-dark-mode-body-bg-color, #FBFBFB);
+$app-light-header-page-card-bg-color: $body-bg;
+$app-light-header-page-card-border-color: if(isDarkMode(), $border-color, #E8E5DD);
+
+$app-light-header-toolbar-bg-color: $app-light-header-page-bg-color;
+
+$app-light-header-bg-color: $body-bg;
+
+$app-light-header-border-color: if(isDarkMode(), $gray-100, #F3F3F3);
+
+$app-light-header-btn-custom-color: $gray-700; 
+$app-light-header-btn-custom-bg-color: if(isDarkMode(), $gray-300, rgba(#F7F5F2, 0.7));
+$app-light-header-btn-custom-border-color: if(isDarkMode(), $gray-300, rgba(#F7F5F2, 0.7));
+
+$app-light-header-search-icon-color: $gray-700;
+$app-light-header-search-input-color: $gray-700;
+$app-light-header-search-input-border-color: if(isDarkMode(), $gray-300, rgba(#F7F5F2, 0.7));
+$app-light-header-search-input-bg-color: if(isDarkMode(), $gray-300, rgba(#F7F5F2, 0.7));
+$app-light-header-search-input-placeholder-color: $gray-400;
+
+$app-light-header-menu-link-bg-color-active: if(isDarkMode(), $gray-100, #FDF9F4);
+$app-light-header-menu-link-color: $gray-600;
+$app-light-header-menu-icon-color:  $gray-500;
+$app-light-header-menu-bullet-color: $gray-500;
+$app-light-header-menu-arrow-color: $gray-500;
+
+$app-light-header-menu-link-color-hover:  $gray-800;
+$app-light-header-menu-icon-color-hover:  $gray-600;
+$app-light-header-menu-bullet-color-hover: $gray-600;
+$app-light-header-menu-arrow-color-hover: $gray-600;
+
+$app-light-header-menu-bullet-color-active: $gray-800;
+
+
+// Dark header
+$app-dark-header-page-bg-color: if(isDarkMode(), $app-dark-mode-body-bg-color, #FBFBFB);
+$app-dark-header-page-card-bg-color: $body-bg;
+$app-dark-header-page-card-border-color: if(isDarkMode(), $border-color, #E8E5DD);
+
+$app-dark-header-bg-color: #161514;
+
+$app-dark-header-toolbar-bg-color: $app-dark-header-page-bg-color;
+
+$app-dark-header-border-color: if(isDarkMode(), $gray-100, #383735);
+
+$app-dark-header-btn-custom-color:#A9A6A0; 
+$app-dark-header-btn-custom-bg-color: if(isDarkMode(), transparent, rgba(#383635, 0.7));
+$app-dark-header-btn-custom-border-color: rgba(#383635, 0.7); 
+
+$app-dark-header-search-icon-color:#A9A6A0;  
+$app-dark-header-search-input-color: $gray-700;
+$app-dark-header-search-input-border-color: if(isDarkMode(), $gray-300, #161514);
+$app-dark-header-search-input-bg-color: if(isDarkMode(), $gray-300, #161514);
+$app-dark-header-search-input-placeholder-color:#646463;
+
+$app-dark-header-menu-link-bg-color-active: if(isDarkMode(), $gray-100, $danger);
+$app-dark-header-menu-link-color: #818181;
+$app-dark-header-menu-icon-color:  $gray-500;
+$app-dark-header-menu-bullet-color: $gray-500;
+$app-dark-header-menu-arrow-color: $gray-500;
+
+$app-dark-header-menu-link-color-hover:  $white;
+$app-dark-header-menu-icon-color-hover:  $gray-600;
+$app-dark-header-menu-bullet-color-hover: $gray-600;
+$app-dark-header-menu-arrow-color-hover: $gray-600;
+
+// Mini sidebar
+$app-mini-sidebar-page-bg-color: if(isDarkMode(), $app-dark-mode-body-bg-color, $white);
+
+$app-mini-sidebar-menu-bg-color:#161514;
+$app-mini-sidebar-menu-icon-color: #555454;
+$app-mini-sidebar-menu-icon-color-active:$danger;
+
+$app-mini-sidebar-menu-link-bg-color: #282725;
+
+$app-mini-sidebar-header-search-icon-color: $gray-700;
+$app-mini-sidebar-header-search-input-color: $gray-700;
+$app-mini-sidebar-header-search-input-border-color: if(isDarkMode(), $gray-300, #EFE9E1);
+$app-mini-sidebar-header-search-input-bg-color: if(isDarkMode(), $gray-300, #F6F5F2);
+$app-mini-sidebar-header-search-input-placeholder-color: $gray-400; 
+
+$app-mini-sidebar-header-btn-custom-color: $gray-700; 
+$app-mini-sidebar-header-btn-custom-icon-color: $gray-700; 
+$app-mini-sidebar-header-btn-custom-border-color: if(isDarkMode(), $gray-300, #EFE9E1);
+
+$app-mini-sidebar-header-btn-custom-color-active: $primary; 
+$app-mini-sidebar-header-btn-custom-icon-color-active: $primary; 
+$app-mini-sidebar-header-btn-custom-border-color-active: if(isDarkMode(), $gray-300, #EFE9E1);;
+$app-mini-sidebar-header-btn-custom-bg-color-active: $light;
+
+// Overlay
+$app-overlay-page-bg-color: if(isDarkMode(), $app-dark-mode-body-bg-color, #FBFBFB);
+$app-overlay-page-card-bg-color: $body-bg;
+$app-overlay-page-card-border-color: if(isDarkMode(), $border-color, #E8E5DD);
+
+$app-overlay-header-bg-color: #161514;
+
+$app-overlay-sidebar-menu-shadow-color: if(isDarkMode(), none,rgba(197, 196, 211, 0.08)); 
+$app-overlay-sidebar-menu-icon-color:if(isDarkMode(), $gray-600,#B5B5C3);
+$app-overlay-sidebar-menu-icon-color-active: $danger;
+$app-overlay-sidebar-menu-link-bg-color: if(isDarkMode(), $gray-200, #F5F5F5);
+
+$app-overlay-search-icon-color: #D4D1CE;
+$app-overlay-search-input-color: #D4D1CE;
+$app-overlay-search-input-border-color: #413E3C;
+$app-overlay-search-input-placeholder-color: #646463;
+
+$app-overlay-btn-custom-color: #D4D1CE; 
+$app-overlay-btn-custom-border-color: #413E3C;
+$app-overlay-btn-custom-color-active: $primary; 
+
+$app-overlay-page-title-heading-color: #D5D1CE;
+$app-overlay-page-title-desc-color: #646463;
+$app-overlay-page-title-breadcrumb-color: $app-overlay-page-title-desc-color;
+$app-overlay-page-title-breadcrumb-color-hover: $app-overlay-page-title-heading-color;
+$app-overlay-page-title-breadcrumb-bullet-color: $app-overlay-page-title-desc-color;
+
+ 
