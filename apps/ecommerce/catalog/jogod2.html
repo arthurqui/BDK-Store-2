@@ -2,8 +2,8 @@
 
 <html lang="en">
 	<!--begin::Head-->
-	<head><base href="">
-		<title>Loja Brasil Drop Keys</title>
+	<head><base href="../../../">
+		<title>Dungeons 2</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Loja BDK, a loja de keys para steam com preços menores que da Steam." />
 		<meta name="keywords" content="BDK, Brasil Drop Keys, paraiba bdk, keys, steam ,skins" />
@@ -20,7 +20,6 @@
 		<!--end::Fonts-->
 		<!--begin::Page Vendor Stylesheets(used by this page)-->
 		<link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/vis-timeline/vis-timeline.bundle.css" rel="stylesheet" type="text/css" />
 		<!--end::Page Vendor Stylesheets-->
 		<!--begin::Global Stylesheets Bundle(used by all pages)-->
 		<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
@@ -28,8 +27,6 @@
 		<!--end::Global Stylesheets Bundle-->
 	</head>
 	<!--end::Head-->
-
-	
 	<!--begin::Body-->
 	<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" class="app-default">
 		<!--begin::Root-->
@@ -61,7 +58,46 @@
 							</a>
 						</div>
 						<!--end::Mobile logo-->
-						
+						<!--begin::Header wrapper-->
+						<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
+							<!--begin::Page title-->
+							<div data-kt-swapper="true" data-kt-swapper-mode="{default: 'prepend', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_content_container', lg: '#kt_app_header_wrapper'}" class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mb-5 mb-lg-0">
+								<!--begin::Title-->
+								<h1 class="page-heading d-flex text-dark fw-bolder fs-3 flex-column justify-content-center my-0">Jogos</h1>
+								<!--end::Title-->
+								<!--begin::Breadcrumb-->
+								<ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-0 pt-1">
+									<!--begin::Item-->
+									<li class="breadcrumb-item text-muted">
+										<a href="/index.html" class="breadcrumb-link text-muted text-hover-primary">Home</a>
+									</li>
+									<!--end::Item-->
+									<!--begin::Item-->
+									<li class="breadcrumb-item">
+										<span class="bullet bg-gray-300 w-5px h-2px"></span>
+									</li>
+									<!--end::Item-->
+									<!--begin::Item-->
+									<li class="breadcrumb-item text-muted">Comprar</li>
+									<!--end::Item-->
+									<!--begin::Item-->
+									<li class="breadcrumb-item">
+										<span class="bullet bg-gray-300 w-5px h-2px"></span>
+									</li>
+									<!--end::Item-->
+									<!--begin::Item-->
+									<li class="breadcrumb-item text-muted">Steam</li>
+									<!--end::Item-->
+								</ul>
+								<!--end::Breadcrumb-->
+							</div>
+							<!--end::Page title-->
+							<!--begin::Navbar-->
+							<div class="app-navbar align-items-center flex-shrink-0">
+							</div>
+							<!--end::Navbar-->
+						</div>
+						<!--end::Header wrapper-->
 					</div>
 					<!--end::Header container-->
 				</div>
@@ -96,14 +132,14 @@
 								
 								
 								
-								<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+								<div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
 									<span class="menu-link">
 										
 										<span class="menu-title">Comprar</span>
 										<span class="menu-arrow"></span>
 									</span>
 									<div class="menu-sub menu-sub-accordion">
-										<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+										<div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
 											<span class="menu-link">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
@@ -113,7 +149,7 @@
 											</span>
 											<div class="menu-sub menu-sub-accordion">
 												<div class="menu-item">
-													<a class="menu-link" href="/apps/ecommerce/catalog/products.html">
+													<a class="menu-link active" href="/apps/ecommerce/catalog/products.html">
 														<span class="menu-bullet">
 															<span class="bullet bullet-dot"></span>
 														</span>
@@ -625,297 +661,158 @@
 							<div id="kt_app_content" class="app-content flex-column-fluid">
 								<!--begin::Content container-->
 								<div id="kt_app_content_container" class="app-container container-fluid">
-									<!--begin::Row-->
-									<div class="row g-5 g-xxl-10">
-										<!--begin::Col-->
-										<div class="row align-items-center ">
-											<!--begin::Col-->
-											<div class="col-sm-12">
-												<!--begin::Wrapper-->
-												<div class="pw-5">
-													<!--begin::Title-->
-													
-													<h1 class="text-dark fw-bolder fs-3x fs-lg-4tx mb-14 ms-n1"><p align="center">Bem-vindo a loja de jogos do<br>Brasil Drop Keys!</p></h1>
-													<!--end::Title-->
-													<!--begin::Action-->
-													
-													<!--end::Action-->
-												</div>
-												<!--end::Wrapper-->
+									<!--begin::Form-->
+									<form id="kt_ecommerce_add_product_form" class="form d-flex flex-column flex-lg-row" data-kt-redirect="/apps/ecommerce/catalog/products.html">
+										<!--begin::Aside column-->
+										<div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+											<!--begin::Thumbnail settings-->
+											<div align="center" style="margin-right:42px ;margin-left:42px ;" >
+												<!-- Imagem do jogo-->
+												<img  style="border-radius: 15px; " height="325" src="https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/34a74f8120fd69fd335dd329c2139860.jpg" alt="">
+												
+												
 											</div>
-											
-										</div>
-										<!--end::Col-->
-										
-										
-									</div>
-
-
-
-
-									
-
-
-
-
-									<div class="card-body mb-10 pt-0">
-											<!--begin::Table-->
-											
-											<div class="card card-flush">
+											<!--end::Thumbnail settings-->
+											<!--begin::Status-->
+											<div class="card card-flush py-4">
 												<!--begin::Card header-->
-												<div class="card-header align-items-center py-5 gap-2 gap-md-5">
+												<div class="card-header">
 													<!--begin::Card title-->
 													<div class="card-title">
-														<h1>Jogos em destaque:</h1>
+														<h2>Estoque:</h2>
 													</div>
 													<!--end::Card title-->
-													
+													<!--begin::Card toolbar-->
+													<div class="card-toolbar">
+														<div class="rounded-circle bg-success w-40px h-40px" id="kt_ecommerce_add_product_status"></div>
+														<!--Alternar entre danger e success para mudar de vermelho pra verde-->
+													</div>
+													<!--begin::Card toolbar-->
 												</div>
 												<!--end::Card header-->
 												<!--begin::Card body-->
-												<div style="justify-content: center;" class="d-flex flex-wrap w-100 ">
-
-													<!--begin::Jogo----------------------------------------------------------------------------------------------->
-													<div class="card card-flush py-4 me-10 mb-5">
-														<!--begin::Card header-->
-														<div class="">
-															<!--begin::Card title-->
-															<div class="text-center mb-6 mt-4">
-																<h2>Brothers - A tale of two sons<br> </h2>
-															</div>
-															<!--end::Card title-->
-														</div>
-														<!--end::Card header-->
-														<!--begin::Card body-->
-														<div class="card-body  pt-0">
-															<!--begin::Photo-->
-															
-															<a href="/apps/ecommerce/catalog/jogobtots.html" class="text-dark fw-bolder text-hover-primary fs-4">
-																
-																<div class="me-7 mb-4">
-																	<div class="position-relative">
-																		<img style="border-radius: 15px; margin-left: 15px;" height="300" src="https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/075647d73efd90ca8bce86297c93e106.jpg" alt="">
-																		<div class="position-absolute translate-middle bottom-40 start-100 mb-0"><img height="50" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Steam_Logo.png" alt=""></div>
-																	</div>
-																</div>
-															</a>	
-															<!--end::Photo-->
-															<!--begin::Description-->
-															<span class="text-center  d-block fw-bold"><h3 class="text-muted">Preço BDK:</h3><h2> R$ 10,00</h2></span>
-															
-															<!--end::Description-->
-														</div>
-														<!--end::Card body-->
-													</div>
-													<!--end::Jogo-------------------------------------------------------------------------------------------------->
-
-													<!--begin::Jogo----------------------------------------------------------------------------------------------->
-													<div class="card card-flush py-4 me-10 mb-5">
-														<!--begin::Card header-->
-														<div class="">
-															<!--begin::Card title-->
-															<div class="text-center mb-6 mt-4">
-																<h2>STAR WARS<br>Knights of the Old Republic</h2>
-															</div>
-															<!--end::Card title-->
-														</div>
-														<!--end::Card header-->
-														<!--begin::Card body-->
-														<div class="card-body  pt-0">
-															<!--begin::Photo-->
-															
-															<a href="/apps/ecommerce/catalog/jogoswkotor.html" class="text-dark fw-bolder text-hover-primary fs-4">
-																
-																<div class="me-7 mb-4">
-																	<div class="position-relative">
-																		<img style="border-radius: 15px; margin-left: 15px;" height="300" src="https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/6a0de0c3cc39d88613eac5f05ba6c94f.jpg" alt="">
-																		<div class="position-absolute translate-middle bottom-40 start-100 mb-0"><img height="50" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Steam_Logo.png" alt=""></div>
-																	</div>
-																</div>
-															</a>	
-															<!--end::Photo-->
-															<!--begin::Description-->
-															<span class="text-center  d-block fw-bold"><h3 class="text-muted">Preço BDK:</h3><h2> R$ 7,00</h2></span>
-															
-															<!--end::Description-->
-														</div>
-														<!--end::Card body-->
-													</div>
-													<!--end::Jogo-------------------------------------------------------------------------------------------------->
-
-													<!--begin::Jogo----------------------------------------------------------------------------------------------->
-													<div class="card card-flush py-4 me-10 mb-5">
-														<!--begin::Card header-->
-														<div class="">
-															<!--begin::Card title-->
-															<div class="text-center mb-6 mt-4">
-																<h2>STAR WARS<br>Jedi Knight: Jedi Academy</h2>
-															</div>
-															<!--end::Card title-->
-														</div>
-														<!--end::Card header-->
-														<!--begin::Card body-->
-														<div class="card-body  pt-0">
-															<!--begin::Photo-->
-															
-															<a href="/apps/ecommerce/catalog/jogoswjkja.html" class="text-dark fw-bolder text-hover-primary fs-4">
-																
-																<div class="me-7 mb-4">
-																	<div class="position-relative">
-																		<img style="border-radius: 15px; margin-left: 15px;" height="300" src="https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/b3d97fc266bb8892b7d48aadd19aca31.jpg" alt="">
-																		<div class="position-absolute translate-middle bottom-40 start-100 mb-0"><img height="50" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Steam_Logo.png" alt=""></div>
-																	</div>
-																</div><div class="mb-4">
-																
-															</div>
-															<!--end::Photo-->
-															<!--begin::Description-->
-															<span class="text-center  d-block fw-bold"><h3 class="text-muted">Preço BDK:</h3><h2> R$ 7,00</h2></span></a>
-															
-															<!--end::Description-->
-														</div>
-														<!--end::Card body-->
-													</div>
-													<!--end::Jogo-------------------------------------------------------------------------------------------------->
-
-												</div>
 												
-												<a align="right" href="/apps/ecommerce/catalog/products.html" class="mt-5 mb-10 me-10"><button type="button" class="btn btn-lg btn-primary ">Ver mais jogos!</button></a>
-													
-							</div>
 												<!--end::Card body-->
 											</div>
+											<!--end::Status-->
 											
-
+											
+											
+										</div>
+										<!--end::Aside column-->
+										<!--begin::Main column-->
+										<div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+											<!--begin:::Tabs-->
+											<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-bold mb-n2">
+												<!--begin:::Tab item-->
+												<li class="nav-item">
+													<a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#kt_ecommerce_add_product_general">Dados gerais</a>
+												</li>
+												<!--end:::Tab item-->
+												<!--begin:::Tab item-->
+												<li class="nav-item">
+													<a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#kt_ecommerce_add_product_advanced">Preço na Steam</a>
+												</li>
+												<!--end:::Tab item-->
+											</ul>
+											<!--end:::Tabs-->
+											<!--begin::Tab content-->
+											<div class="tab-content">
+												<!--begin::Tab pane-->
+												<div class="tab-pane fade show active" id="kt_ecommerce_add_product_general" role="tab-panel">
+													<div class="d-flex flex-column gap-7 gap-lg-10">
+														<!--begin::General options-->
+														<div class="card card-flush py-4">
+															<!--begin::Card header-->
 															
-									<!--end::Row-->
-									
-									
-									
-									<!--begin::Row-->
-									<div  class=" row g-5 g-xxl-10">
-										<!--begin::Col-->
-										<div class="col-xl-4 mb-xxl-10">
-											<!--begin::Chart widget 5-->
-											<div class="card card-flush h-xl-100">
-												<!--begin::Header-->
-												<div class="card-header flex-nowrap pt-5">
-													<!--begin::Title-->
-													<h3 class="card-title align-items-start flex-column">
-														<span id="relampago" class="relampago card-label fw-bolder text-dark">Promoção relampago</span>
-														<span class="text-gray-400 pt-2 fw-bold fs-6">Enquanto durarem os estoques</span>
-													</h3>
-													<!--end::Title-->
-													
-												</div>
-												<!--end::Header-->
-												<!--begin::Body-->
-												
-												<a href="/apps/ecommerce/catalog/jogod2.html" class="text-dark fw-bolder text-hover-primary fs-4"><div align="center" class="card-body pt-5 ps-6">
-													<img  style="border-radius: 15px; " height="400" src="https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/34a74f8120fd69fd335dd329c2139860.jpg" alt="">
-													<div class="position-absolute translate-middle bottom-40 start-50 mb-0"><img height="100" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Steam_Logo.png" alt=""></div>
-													<h3><p align="right"><br>R$ 13,00</p></h3>
-												</div></a>
-												<!--end::Body-->
-											</div>
-											<!--end::Chart widget 5-->
-										</div>
-										<!--end::Col-->
-										<!--begin::Col-->
-										<div class="col-xl-4 mb-xxl-10">
-											<!--begin::List widget 14-->
-											<div class="card card-flush h-xl-100">
-												<!--begin::Header-->
-												<div class="card-header pt-5">
-													<!--begin::Title-->
-													<h3 class="card-title align-items-start flex-column">
-														<span class="card-label fw-bolder text-dark">Steam key aleatória</span>
-														<span style="color:limegreen;" class=" pt-2 fw-bold fs-6">Aceita pagamento com itens da Steam!</span>
-													</h3>
-													<!--end::Title-->
-													
-												</div>
-												<!--end::Header-->
-												<!--begin::Body-->
-												<a href="/apps/ecommerce/catalog/jogoaleatorio.html" class="text-dark fw-bolder text-hover-primary fs-4"><div align="center" class="card-body pt-5 ps-6">
-													<img  style="border-radius: 15px; " height="400" src="/assets/media/misc/aleatoria.png" alt="">
-													
-													<h3><p align="right"><br>R$ 1,00</p></h1>
-												</div></a>
-												<!--end::Body-->
-												<!--end: Card Body-->
-											</div>
-											<!--end: List widget 14-->
-										</div>
-										<!--end::Col-->
-										<!--begin::Col-->
-										<div class="col-xl-4 mb-xxl-10">
-											<!--begin::List widget 15-->
-											<div class="card card-flush h-xl-100">
-												<!--begin::Header-->
-												<div class="card-header pt-5">
-													<!--begin::Title-->
-													<h3 class="card-title align-items-start flex-column">
-														<span class="card-label fw-bolder text-dark">Steam Key aleatória Premium</span>
-														<span class="text-gray-400 pt-2 fw-bold fs-6">Jogo aleatório de R$ 20,00 ou mais!</span>
-													</h3>
-													<!--end::Title-->
-													
-												</div>
-												<!--end::Header-->
-												<!--begin::Body-->
-												<a href="/apps/ecommerce/catalog/jogoaleatoriopremium.html" class="text-dark fw-bolder text-hover-primary fs-4"><div align="center" class="card-body pt-5 ps-6">
-													<img  style="border-radius: 15px; " height="400" src="assets/media/misc/aleatoriapremium.png" alt="">
-													
-													<h3><p align="right"><br>R$ 10,00</p></h3>
-												</div></a>
-												<!--end::Body-->
-											</div>
-											<!--end::List widget 15-->
-										</div>
-										<!--end::Col-->
-									</div>
-									<!--end::Row-->
+															<!--end::Card header-->
+															<!--begin::Card body-->
+															<div class="card-body pt-0">
+																<!--begin::Input group-->
+																
 
-									<div class="card-body  mb-5">
-										
-										<div class="pt-5 card card-flush">
-											
-											<div class="card-header align-items-center py-5 gap-2 gap-md-5">
-											
-												<h4 class="text-dark fw-bolder "><p align="center">Vendo que muitos viewers do BDK adoram promoções e descontos em jogos, principalmente em jogos da Steam, eu, Paraíba, desenvolvi esse site para vender keys de jogos com preços MUITO menores que os preços de qualquer outro site, incluindo a Steam!
-													<br><br>
-													Esta é a versão 1.0 do site então estamos operando as vendas de uma maneira que ainda não é 100% automática e com estoques baixos, porém o BDK é confiável e oferecemos 100% de garantia para qualquer compra, ou seja... 
-												</p></h3>
-													<h1 class="text-dark fw-bolder "><p align="center">...quando você realiza a compra, nós enviaremos a key. Ao efetuar o pagamento a entrega é garantida!</p></h1>
-											
+																<div class="d-flex mt-5 flex-wrap gap-5">
+																	<!--begin::Input group-->
+																	<div class="fv-row w-100 flex-md-root fv-plugins-icon-container">
+																		
+																		
+																		<!--begin::Description-->
+																		<div class="text-muted fs-7"><h1>Dungeons 2</h1></div>
+																		<!--end::Description-->
+																	<div class="fv-plugins-message-container invalid-feedback"></div></div>
+																	<!--end::Input group-->
+																	<!--begin::Input group-->
+																	<div class="fv-row w-100 flex-md-root">
+																		
+																		
+																		<!--begin::Description-->
+																		<div style="padding-right:3% ;" class="text-muted fs-7"><h1 align="right">R$ 13,00</h1></div>
+																		<!--end::Description-->
+																	</div>
+																	<!--end::Input group-->
+																</div>
+																<!--end::Input group-->
+																<!--begin::Input group-->
+																<div>
+																	
+																	
+																	<!--begin::Description-->
+																	<div class="text-muted fs-7"><p align="center"><br>O Dungeon Lord está de volta - e desta vez ele está falando sério!<br><br>
+																		Em Dungeons 2, cumpra a busca insaciável de vingança do Lorde das Masmorras, recrutando novos monstros temíveis de todos os cantos do submundo para cumprir suas ordens malignas.<br><br>
+																		Jogo de estratégia em tempo real parecido com warcraft III porém com uma grande parte focada em tower defense e gerenciamento de recursos, além de ter uma história que é uma parodia de senhor dos anéis onde você é um "Sauron" que foi derrotado e tenta se reestabelecer!<br><br>
+																		
+																		<a style="font-size:xx-large ; padding-left:20% ;padding-right:20% ; margin-top: 15px;" href="/apps/ecommerce/catalog/pagamento.html"  class="btn btn-primary ">Comprar</a></p>
+																	</div>
+																	<!--end::Description-->
+																</div>
+																<!--end::Input group-->
+															</div>
+															<!--end::Card header-->
+														</div>
+														<!--end::General options-->
+														
+													</div>
+												</div>
+												<!--end::Tab pane-->
+												<!--begin::Tab pane-->
+												<div class="tab-pane fade" id="kt_ecommerce_add_product_advanced" role="tab-panel">
+													<div class="d-flex flex-column gap-7 gap-lg-10">
+														<!--begin::Meta options-->
+														<div style="background-color: #282e39;" class="card card-flush py-4">
+															<!--begin::Card header-->
+															
+															<!--end::Card header-->
+															<!--begin::Card body-->
+															<div  class="card-body pt-0">
+																<!--begin::Input group-->
+																<div align="center" class="mt-0 mb-0">
+																	
+																	<iframe src="https://store.steampowered.com/widget/262280/?t=%20" frameborder="0" width="100%" height="190"></iframe>
+																	
+																</div>
+																<!--end::Input group-->
+																
+															</div>
+															<!--end::Card header-->
+														</div>
+														<!--end::Meta options-->
+													</div>
+												</div>
+												<!--end::Tab pane-->
 											</div>
-										
-										</div>
+											<!--end::Tab content-->
 											
-									</div>
-
+										</div>
+										<!--end::Main column-->
+									</form>
+									<!--end::Form-->
 								</div>
 								<!--end::Content container-->
 							</div>
 							<!--end::Content-->
 						</div>
 						<!--end::Content wrapper-->
-						<!--begin::Footer-->
-						<div id="kt_app_footer" class="app-footer">
-							<!--begin::Footer container-->
-							<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-								<!--begin::Copyright-->
-								<div class="text-dark order-2 order-md-1">
-									
-									<a href="" class="text-gray-800 text-hover-primary">Feito por: Arthur Quintanilha Neto (vulgo Paraíba)</a>
-								</div>
-								<!--end::Copyright-->
-								
-							</div>
-							<!--end::Footer container-->
-						</div>
-						<!--end::Footer-->
+						
 					</div>
 					<!--end:::Main-->
 				</div>
@@ -924,10 +821,7 @@
 			<!--end::Page-->
 		</div>
 		<!--end::Root-->
-		<!--begin::Drawers-->
 		
-		
-		<!--end::Drawers-->
 		
 		<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
 			<!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
