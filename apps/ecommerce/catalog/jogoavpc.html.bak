@@ -693,7 +693,7 @@
 													<!--end::Card title-->
 													<!--begin::Card toolbar-->
 													<div class="card-toolbar">
-														<div class="rounded-circle bg-danger w-40px h-40px" id="kt_ecommerce_add_product_status"></div>
+														<div class="rounded-circle bg-success w-40px h-40px" id="kt_ecommerce_add_product_status"></div>
 														<!--Alternar entre danger e success para mudar de vermelho pra verde-->
 													</div>
 													<!--begin::Card toolbar-->
