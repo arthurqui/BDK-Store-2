@@ -25,10 +25,74 @@
 		<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
+		<style>
+			#bloco-propaganda {
+				position: fixed;
+				bottom: 0;
+				left: 60%;
+				transform: translateX(-55%);
+				z-index: 9999;
+				background-color: #3c992500;
+				padding: 0px;
+			}
+	
+			#bloco-propaganda img {
+				max-width: 100%;
+				height: auto;
+			}
+	
+			#bloco-propaganda .fechar {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				width: 30px;
+				height: 30px;
+				background-color: #f1f1f1;
+				border: none;
+				cursor: pointer;
+				font-size: 18px;
+				color: #333;
+			}
+	
+			#bloco-propaganda .fechar::before,
+			#bloco-propaganda .fechar::after {
+				content: '';
+				position: absolute;
+				width: 2px;
+				height: 15px;
+				background-color: #333;
+				top: 7px;
+				left: 14px;
+			}
+	
+			#bloco-propaganda .fechar::before {
+				transform: rotate(45deg);
+			}
+	
+			#bloco-propaganda .fechar::after {
+				transform: rotate(-45deg);
+			}
+		</style>
+		<script>
+			function fecharBlocoPropaganda() {
+				var blocoPropaganda = document.getElementById('bloco-propaganda');
+				blocoPropaganda.style.display = 'none';
+			}
+		</script>
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
 	<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" class="app-default">
+		
+		<div id="bloco-propaganda">
+			<a href="/apps/ecommerce/catalog/productsfree.html" target="_blank">
+				<img src="https://media.discordapp.net/attachments/404339221638152203/1129506611677905017/Sem_Titulo-3-Recuperado.png?width=2880&height=390" alt="Bloco de Propaganda">
+			</a>
+			<button class="fechar" onclick="fecharBlocoPropaganda()"></button>
+		</div>
+
+		  
+
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="kt_app_root">
 			<!--begin::Page-->
