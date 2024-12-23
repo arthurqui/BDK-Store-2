@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect Handler</title>
+    <script>
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const link = params.get('link');
+            const titulo = params.get('titulo');
+            const img = params.get('img');
+
+            if (!id || !link || !titulo || !img) {
+                console.error("Missing required query parameters");
+                return;
+            }
+
+            const redirectUrl = `/apps/ecommerce/catalog/redirect${id}.html?link=${encodeURIComponent(link)}&titulo=${encodeURIComponent(titulo)}&img=${encodeURIComponent(img)}`;
+
+            // Redirect to the constructed URL
+            window.location.href = redirectUrl;
+        };
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>

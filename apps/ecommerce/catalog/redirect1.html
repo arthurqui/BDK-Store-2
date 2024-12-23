@@ -20,7 +20,7 @@
 
 
 
-	<title>Sorteios BDK</title>
+	
 	<meta charset="utf-8">
 	<meta name="description" content="Loja BDK, a loja de keys para steam com preços menores que da Steam.">
 	<meta name="keywords" content="BDK, Brasil Drop Keys, paraiba bdk, keys, steam ,skins">
@@ -50,6 +50,91 @@
 	<style type="text/css"></style>
 	<style type="text/css"></style>
 	<style type="text/css"></style>
+	<title>BDK Redirect</title>
+    <style>
+        
+        
+
+        .button {
+			margin-left: 20vh;
+			margin-top: 5vh;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+			
+        }
+
+        .button:active {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        let clickCount = 0;
+        let remainingClicks = 2;
+
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const buttonTitle = params.get('titulo');
+            const imageUrl = params.get('img');
+            const button = document.querySelector('.button');
+            const message = document.querySelector('.message');
+            const imageDiv = document.querySelector('.bgi-no-repeat');
+
+            // Verifica o horário atual do usuário
+            const currentTime = new Date();
+            const lastChar = currentTime.getSeconds().toString().slice(-1);
+            if (['2', '4', '6'].includes(lastChar)) {
+                clickCount = 0;
+                remainingClicks = 2;
+            } else {
+                clickCount = 1;
+                remainingClicks = 1;
+            }
+
+            if (buttonTitle) {
+                button.textContent = buttonTitle;
+            }
+
+            if (imageUrl) {
+                imageDiv.style.backgroundImage = `url('${imageUrl}')`;
+            }
+
+            updateMessage(message);
+        };
+
+        function handleClick() {
+            const params = new URLSearchParams(window.location.search);
+            const redirectLink = params.get('link');
+            const message = document.querySelector('.message');
+
+            if (clickCount === 0) {
+                // Primeira vez: abrir www.link2.com em uma nova aba
+                const tempTab = window.open('https://www.link2.com', '_blank', 'noopener,noreferrer');
+                if (tempTab) {
+                    tempTab.blur(); // Remove o foco da nova aba
+                    window.focus(); // Retorna o foco para a aba atual
+                }
+                clickCount++;
+                remainingClicks = Math.max(remainingClicks - 1, 1);
+                updateMessage(message);
+            } else if (clickCount === 1) {
+                // Segunda vez: redirecionar para www.link1.com
+                if (redirectLink) {
+                    window.location.href = redirectLink;
+                } else {
+                    console.error('Parâmetro "link" não encontrado na URL.');
+                }
+            }
+        }
+
+        function updateMessage(message) {
+            message.textContent = `Clique ${remainingClicks}x no botão abaixo para acessar`;
+        }
+    </script>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -102,7 +187,7 @@
 							<!--begin::Title-->
 							<h1
 								class="page-heading d-flex text-dark fw-bolder fs-3 flex-column justify-content-center my-0">
-								Sorteios BDK</h1>
+								Redirecionador BDK</h1>
 							<!--end::Title-->
 
 						</div>
@@ -155,14 +240,14 @@
 
 
 
-							<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+							<div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
 								<span class="menu-link">
 
 									<span class="menu-title">Comprar</span>
 									<span class="menu-arrow"></span>
 								</span>
 								<div class="menu-sub menu-sub-accordion">
-									<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+									<div data-kt-menu-trigger="click" class="menu-item show menu-accordion">
 										<span class="menu-link">
 											<span class="menu-bullet">
 												<span class="bullet bullet-dot"></span>
@@ -365,7 +450,7 @@
 
 
 
-							<div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+							<div data-kt-menu-trigger="click" class="menu-item show here menu-accordion">
 								<span class="menu-link">
 
 									<span class="menu-title">Promoções</span>
@@ -389,7 +474,7 @@
 										</a>
 									</div>
 									<div class="menu-item">
-										<a class="menu-link active" href="/apps/ecommerce/catalog/sorteiobdk.html">
+										<a class="menu-link" href="/apps/ecommerce/catalog/sorteiobdk.html">
 											<span class="menu-bullet">
 												<span class="bullet bullet-dot"></span>
 											</span>
@@ -710,7 +795,7 @@
 										<!--begin::Latest posts-->
 										<div class="mb-1">
 											<!--begin::Title-->
-											<h3 class="text-dark mb-7">Sorteios atuais</h3>
+											<h3 class="text-dark mb-7"> Link de interesse abaixo:</h3>
 											<!--end::Title-->
 											<!--begin::Separator-->
 											<div class="separator separator-dashed mb-9"></div>
@@ -720,22 +805,15 @@
 												<!--begin::Col-->
 												<div class="col-xl-6">
 													<!--begin::Media-->
-													<div
-														class="h-100 d-flex flex-column justify-content-between pe-xl-6 mb-xl-0 mb-10">
+													<div class="h-100 d-flex flex-column justify-content-between pe-xl-6 mb-xl-0 mb-10">
 														<!--begin::Wrapper-->
 														<div class="overlay mt-2">
 															<!--begin::Image-->
-															<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-325px"
-																style="background-image:url('https://trueendingblog.files.wordpress.com/2018/10/kingdom-new-lands-steam-cd-key-d_nq_np_843385-mlb27084733877_032018-f.jpg')">
+															<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-325px" style="background-image:url('https://www.sindmestresbrasil.org.br/wp-content/uploads/2018/05/Fundo-transparente-1900x1900.png')">
 															</div>
 															<!--end::Image-->
 															<!--begin::Links-->
-															<div
-																class="overlay-layer card-rounded bg-dark bg-opacity-25">
-
-																<a href="./apps/ecommerce/catalog/s2.html"
-																	class="btn btn-light-primary ms-3">Junte-se ao
-																	Sorteio!</a>
+															<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
 															</div>
 															<!--end::Links-->
 														</div>
@@ -752,9 +830,12 @@
 														<div class="mb-7">
 
 															<!--begin::Title-->
-															<a href="./apps/ecommerce/catalog/s2.html"
-																class="fw-bolder text-dark mb-3 fs-4qx lh-sm text-hover-primary">
-																Kingdom:<br>New Lands </a>
+															<a 
+																class="fw-bolder text-dark mb-3 fs-4qx lh-sm ">
+																<div class="message">Clique 2x no botão abaixo para
+																	acessar</div>
+																<button class="button" onclick="handleClick()">Clique
+																	aqui</button>
 															<!--end::Title-->
 															<!--begin::Text-->
 
@@ -772,10 +853,9 @@
 																<!--end::Avatar-->
 																<!--begin::Text-->
 																<div class="fs-5 fw-bolder">
-																	<span class="text-gray-500">Termina dia:
-																		&nbsp;</span>
+																	<span class="text-gray-500"></span>
 																	<a
-																		class="text-gray-700 text-hover-primary">21/03/2024</a>
+																		class="text-gray-700 text-hover-primary"></a>
 
 																</div>
 																<!--end::Text-->
@@ -795,54 +875,7 @@
 										</div>
 										<!--end::Latest posts-->
 										<!--begin::Section-->
-										<div class="mb-2">
-											<!--begin::Content-->
-											<div class="d-flex flex-stack mb-5">
-												<!--begin::Title-->
-												<h3 class="text-dark">Ultimos sorteios e ganhadores</h3>
-												<!--end::Title-->
-												<!--begin::Link-->
-
-												<!--end::Link-->
-											</div>
-											<!--end::Content-->
-											<!--begin::Separator-->
-
-
-
-
-
-
-											<!--end::Separator-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-											<!--end::Row-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-										</div>
+										
 										<!--end::Section-->
 										<!--begin::Section-->
 
@@ -851,193 +884,7 @@
 
 
 
-										<div class="">
-											<!--begin::Section-->
-											<div class="m-0">
-												<!--begin::Content-->
-
-												<!--end::Content-->
-												<!--begin::Separator-->
-												<div class="separator separator-dashed border-gray-300 mb-9 mt-5"></div>
-												<!--end::Separator-->
-											</div>
-											<!--end::Section-->
-											<!--begin::Row-->
-											<div class="row g-10 row-cols-2 row-cols-lg-5">
-
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://youtu.be/oK1_pEUVjwM" target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://cdn-ext.fanatical.com/production/product/1280x720/6af1d676-e94f-4b6b-beaa-8ea55199c34b.jpeg')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://youtu.be/rmCoztkGvHw" target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://img.hype.games/cdn/5d9a7e20-9833-49ac-a7bc-e31c6aacd7f9lswtfa-cover.jpg')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://www.youtube.com/watch?v=60o4NRW8yvA"
-														target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://i.ytimg.com/vi/3k_a6Q6sWtI/maxresdefault.jpg')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://www.youtube.com/watch?v=qekfqvIXulA"
-														target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://i.ytimg.com/vi/zWc2M2fpCsQ/maxresdefault.jpg')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://www.youtube.com/watch?v=DPoi1mF8JoY"
-														target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/ncom/pt_BR/games/switch/l/lego-marvel-super-heroes-switch/hero')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://www.youtube.com/watch?v=l5JopfCbkEE"
-														target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://cdn-ext.fanatical.com/production/product/1280x720/6092518e-714d-42bc-8afb-1e0fddbf3721.jpeg')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://www.youtube.com/watch?v=Lot8YN3Z6ik"
-														target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://s2-techtudo.glbimg.com/VUvkflehgTGYMmch3ZgO76_-G5Y=/0x0:695x391/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2021/z/m/15xHSKSR6dlOAU6RvY9w/2014-10-03-som-capa.jpg')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-												<!--begin::Col-->
-												<div class="col">
-													<!--begin::Overlay-->
-													<a class="d-block overlay" data-fslightbox="lightbox-hot-sales"
-														href="https://www.youtube.com/watch?v=1LlqWHs4Y8o"
-														target="_blank">
-														<!--begin::Image-->
-														<div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
-															style="background-image:url('https://img.hype.games/cdn/5d04ff5f-6d56-45e8-bff2-84924c6b3137sunadcca--cover.jpg')">
-														</div>
-														<!--end::Image-->
-														<!--begin::Action-->
-														<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
-															<i class="bi bi-eye-fill fs-2x text-white"></i>
-														</div>
-														<!--end::Action-->
-													</a>
-												</div>
-												<!--end::Col-->
-
-												<!--begin::Col-->
-
-												<!--end::Col-->
-												<!--begin::Col-->
-
-												<!--end::Col-->
-												<!--begin::Col-->
-
-												<!--end::Col-->
-											</div>
-											<!--begin::Row--><br><br>
-										</div>
+										
 										<div class="d-flex flex-stack mt-5 mb-5">
 											<!--begin::Title-->
 
