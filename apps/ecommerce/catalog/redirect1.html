@@ -20,7 +20,7 @@
 
 
 
-	
+
 	<meta charset="utf-8">
 	<meta name="description" content="Loja BDK, a loja de keys para steam com preços menores que da Steam.">
 	<meta name="keywords" content="BDK, Brasil Drop Keys, paraiba bdk, keys, steam ,skins">
@@ -51,90 +51,87 @@
 	<style type="text/css"></style>
 	<style type="text/css"></style>
 	<title>BDK Redirect</title>
-    <style>
-        
-        
-
-        .button {
+	<style>
+		.button {
 			margin-left: 20vh;
 			margin-top: 5vh;
-            padding: 20px 40px;
-            font-size: 1.5rem;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-			
-        }
+			padding: 20px 40px;
+			font-size: 1.5rem;
+			color: white;
+			background-color: #007BFF;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
 
-        .button:active {
-            background-color: #0056b3;
-        }
-    </style>
-    <script>
-        let clickCount = 0;
-        let remainingClicks = 2;
+		}
 
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const buttonTitle = params.get('titulo');
-            const imageUrl = params.get('img');
-            const button = document.querySelector('.button');
-            const message = document.querySelector('.message');
-            const imageDiv = document.querySelector('.bgi-no-repeat');
+		.button:active {
+			background-color: #0056b3;
+		}
+	</style>
+	<script>
+		let clickCount = 0;
+		let remainingClicks = 2;
 
-            // Verifica o horário atual do usuário
-            const currentTime = new Date();
-            const lastChar = currentTime.getSeconds().toString().slice(-1);
-            if (['2', '4', '6'].includes(lastChar)) {
-                clickCount = 0;
-                remainingClicks = 2;
-            } else {
-                clickCount = 1;
-                remainingClicks = 1;
-            }
+		window.onload = function () {
+			const params = new URLSearchParams(window.location.search);
+			const buttonTitle = params.get('titulo');
+			const imageUrl = params.get('img');
+			const button = document.querySelector('.button');
+			const message = document.querySelector('.message');
+			const imageDiv = document.querySelector('.bgi-no-repeat');
 
-            if (buttonTitle) {
-                button.textContent = buttonTitle;
-            }
+			// Verifica o horário atual do usuário
+			const currentTime = new Date();
+			const lastChar = currentTime.getSeconds().toString().slice(-1);
+			if (['2', '4', '6'].includes(lastChar)) {
+				clickCount = 0;
+				remainingClicks = 2;
+			} else {
+				clickCount = 1;
+				remainingClicks = 1;
+			}
 
-            if (imageUrl) {
-                imageDiv.style.backgroundImage = `url('${imageUrl}')`;
-            }
+			if (buttonTitle) {
+				button.textContent = buttonTitle;
+			}
 
-            updateMessage(message);
-        };
+			if (imageUrl) {
+				imageDiv.style.backgroundImage = `url('${imageUrl}')`;
+			}
 
-        function handleClick() {
-            const params = new URLSearchParams(window.location.search);
-            const redirectLink = params.get('link');
-            const message = document.querySelector('.message');
+			updateMessage(message);
+		};
 
-            if (clickCount === 0) {
-                // redirect1 = duobot
-                const tempTab = window.open('https://duobot.com/p/m4qvs-Sh--', '_blank', 'noopener,noreferrer');
-                if (tempTab) {
-                    tempTab.blur(); // Remove o foco da nova aba
-                    window.focus(); // Retorna o foco para a aba atual
-                }
-                clickCount++;
-                remainingClicks = Math.max(remainingClicks - 1, 1);
-                updateMessage(message);
-            } else if (clickCount === 1) {
-                // Segunda vez: redirecionar para www.link1.com
-                if (redirectLink) {
-                    window.location.href = redirectLink;
-                } else {
-                    console.error('Parâmetro "link" não encontrado na URL.');
-                }
-            }
-        }
+		function handleClick() {
+			const params = new URLSearchParams(window.location.search);
+			const redirectLink = params.get('link');
+			const message = document.querySelector('.message');
 
-        function updateMessage(message) {
-            message.textContent = `Clique ${remainingClicks}x no botão abaixo para acessar`;
-        }
-    </script>
+			if (clickCount === 0) {
+				// redirect1 = duobot
+				const tempTab = window.open('https://duobot.com/p/m4qvs-Sh--', '_blank', 'noopener,noreferrer');
+				if (tempTab) {
+					tempTab.blur(); // Remove o foco da nova aba
+					window.focus(); // Retorna o foco para a aba atual
+				}
+				clickCount++;
+				remainingClicks = Math.max(remainingClicks - 1, 1);
+				updateMessage(message);
+			} else if (clickCount === 1) {
+				// Segunda vez: redirecionar para www.link1.com
+				if (redirectLink) {
+					window.location.href = redirectLink;
+				} else {
+					console.error('Parâmetro "link" não encontrado na URL.');
+				}
+			}
+		}
+
+		function updateMessage(message) {
+			message.textContent = `Clique ${remainingClicks}x no botão abaixo para acessar`;
+		}
+	</script>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -805,15 +802,18 @@
 												<!--begin::Col-->
 												<div class="col-xl-6">
 													<!--begin::Media-->
-													<div class="h-100 d-flex flex-column justify-content-between pe-xl-6 mb-xl-0 mb-10">
+													<div
+														class="h-100 d-flex flex-column justify-content-between pe-xl-6 mb-xl-0 mb-10">
 														<!--begin::Wrapper-->
 														<div class="overlay mt-2">
 															<!--begin::Image-->
-															<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-325px" style="background-image:url('https://www.sindmestresbrasil.org.br/wp-content/uploads/2018/05/Fundo-transparente-1900x1900.png')">
+															<div class="bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-325px"
+																style="background-image:url('https://www.sindmestresbrasil.org.br/wp-content/uploads/2018/05/Fundo-transparente-1900x1900.png')">
 															</div>
 															<!--end::Image-->
 															<!--begin::Links-->
-															<div class="overlay-layer card-rounded bg-dark bg-opacity-25">
+															<div
+																class="overlay-layer card-rounded bg-dark bg-opacity-25">
 															</div>
 															<!--end::Links-->
 														</div>
@@ -830,16 +830,15 @@
 														<div class="mb-7">
 
 															<!--begin::Title-->
-															<a 
-																class="fw-bolder text-dark mb-3 fs-4qx lh-sm ">
+															<a class="fw-bolder text-dark mb-3 fs-4qx lh-sm ">
 																<div class="message">Clique 2x no botão abaixo para
 																	acessar</div>
 																<button class="button" onclick="handleClick()">Clique
 																	aqui</button>
-															<!--end::Title-->
-															<!--begin::Text-->
+																<!--end::Title-->
+																<!--begin::Text-->
 
-															<!--end::Text-->
+																<!--end::Text-->
 														</div>
 														<!--end::Body-->
 														<!--begin::Footer-->
@@ -854,8 +853,7 @@
 																<!--begin::Text-->
 																<div class="fs-5 fw-bolder">
 																	<span class="text-gray-500"></span>
-																	<a
-																		class="text-gray-700 text-hover-primary"></a>
+																	<a class="text-gray-700 text-hover-primary"></a>
 
 																</div>
 																<!--end::Text-->
@@ -875,7 +873,7 @@
 										</div>
 										<!--end::Latest posts-->
 										<!--begin::Section-->
-										
+
 										<!--end::Section-->
 										<!--begin::Section-->
 
@@ -884,7 +882,7 @@
 
 
 
-										
+
 										<div class="d-flex flex-stack mt-5 mb-5">
 											<!--begin::Title-->
 
@@ -1028,6 +1026,13 @@
 			<!--end::Wrapper-->
 		</div>
 		<!--end::Page-->
+		<div style="position: fixed; bottom: 10px; right: 10px; text-align: right;">
+
+			<img src='https://contador.s12.com.br/img-C34YwW10b7xy2ZYZ-57.gif' border='0' alt='contador'></a>
+			<script type='text/javascript' src='https://contador.s12.com.br/ad.js?id=C34YwW10b7xy2ZYZ'></script>
+		</div>
+
+
 	</div>
 	<!--end::Root-->
 
