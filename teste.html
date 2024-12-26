@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste Firebase</title>
+  <style>
+    .container {
+      display: flex;
+    }
+    .left, .right {
+      flex: 1;
+      padding: 20px;
+    }
+    .right {
+      background-color: #f4f4f4;
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { processText } from "./seguranca/seguranca.js";
+    
+    async function loadConfig() {
+      const response = await fetch('data.txt');
+      const rawLines = (await response.text()).split('\\n');
+
+      const key = 3;
+      const Data = rawLines.map(line => processText(line.trim(), key));
+
+      return {
+        apiKey: Data[0],
+        authDomain: Data[1],
+        databaseURL: "https://bdksell-default-rtdb.firebaseio.com/",
+        projectId: Data[1],
+        storageBucket: Data[2],
+        messagingSenderId: Data[3],
+        appId: Data[4],
+        measurementId: Data[5]
+      };
+    }
+
+    let databaseInstance;
+    loadConfig().then(config => {
+      const app = initializeApp(config);
+      databaseInstance = getDatabase(app);
+      fetchOrders();
+    });
+
+    async function saveOrder() {
+      const link = document.getElementById('gameLink').value;
+      const name = document.getElementById('gameName').value;
+      const price = document.getElementById('gamePrice').value;
+      const hashDoBrowser = localStorage.getItem('hashDoBrowser');
+
+      if (link.trim() === "" || name.trim() === "" || price.trim() === "") {
+        alert("Todos os campos são obrigatórios.");
+        return;
+      }
+
+      try {
+        const dbRef = ref(databaseInstance, "pedidos");
+        await push(dbRef, {
+          link: link,
+          name: name,
+          price: price,
+          time: new Date().toISOString(),
+          atendido: false,
+          hashDoBrowser: hashDoBrowser
+        });
+        alert("Pedido enviado com sucesso!");
+      } catch (error) {
+        console.error("Erro ao salvar o pedido:", error);
+        alert("Erro ao salvar o pedido. Consulte o console para mais detalhes.");
+      }
+    }
+
+    async function fetchOrders() {
+      const dbRef = ref(databaseInstance, "pedidos");
+      onValue(dbRef, (snapshot) => {
+        const orders = [];
+        snapshot.forEach((childSnapshot) => {
+          orders.push(childSnapshot.val());
+        });
+        orders.sort((a, b) => new Date(a.time) - new Date(b.time));
+        displayOrders(orders);
+      });
+    }
+
+    function displayOrders(orders) {
+      const orderList = document.getElementById('orderList');
+      orderList.innerHTML = "";
+      orders.forEach(order => {
+        const orderItem = document.createElement('div');
+        orderItem.innerHTML = `
+          <p><strong>Link:</strong> ${order.link}</p>
+          <p><strong>Nome:</strong> ${order.name}</p>
+          <p><strong>Preço:</strong> ${order.price}</p>
+          <p><strong>Data:</strong> ${order.time}</p>
+          <p><strong>Atendido:</strong> ${order.atendido}</p>
+          <p><strong>Hash:</strong> ${order.hashDoBrowser}</p>
+          <hr>
+        `;
+        orderList.appendChild(orderItem);
+      });
+    }
+
+    window.saveOrder = saveOrder;
+    
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <h1>Cadastre um Pedido</h1>
+      <label for="gameLink">Digite o link do jogo na Steam:</label><br>
+      <input type="text" id="gameLink" placeholder="Digite aqui..." /><br><br>
+      <label for="gameName">Digite o nome do jogo:</label><br>
+      <input type="text" id="gameName" placeholder="Digite aqui..." /><br><br>
+      <label for="gamePrice">Digite o preço do jogo:</label><br>
+      <input type="text" id="gamePrice" placeholder="Digite aqui..." /><br><br>
+      <button onclick="saveOrder()">Confirmar</button>
+    </div>
+    <div class="right">
+      <h1>Lista de Pedidos</h1>
+      <div id="orderList"></div>
+    </div>
+  </div>
+</body>
+</html>
