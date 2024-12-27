@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Pedidos</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { processText } from "./seguranca/seguranca.js";
+
+    async function loadConfig() {
+      const response = await fetch('data.txt');
+      const rawLines = (await response.text()).split('\\n');
+
+      const key = 3;
+      const Data = rawLines.map(line => processText(line.trim(), key));
+
+      return {
+        apiKey: Data[0],
+        authDomain: Data[1],
+        databaseURL: "https://bdksell-default-rtdb.firebaseio.com/",
+        projectId: Data[1],
+        storageBucket: Data[2],
+        messagingSenderId: Data[3],
+        appId: Data[4],
+        measurementId: Data[5]
+      };
+    }
+
+    let databaseInstance;
+    loadConfig().then(config => {
+      const app = initializeApp(config);
+      databaseInstance = getDatabase(app);
+      fetchOrders();
+    });
+
+    async function fetchOrders() {
+      const dbRef = ref(databaseInstance, "pedidos");
+      onValue(dbRef, (snapshot) => {
+        const orders = [];
+        snapshot.forEach((childSnapshot) => {
+          const order = childSnapshot.val();
+          if (!order.atendido) {
+            order.id = childSnapshot.key; // Salvar a chave única do Firebase
+            orders.push(order);
+          }
+        });
+        orders.sort((a, b) => new Date(a.time) - new Date(b.time));
+        displayOrders(orders);
+      });
+    }
+
+    async function markAsDone(orderId) {
+      const dbRef = ref(databaseInstance, `pedidos/${orderId}`);
+      try {
+        await update(dbRef, { atendido: true });
+        alert("Pedido marcado como atendido!");
+      } catch (error) {
+        console.error("Erro ao atualizar o pedido:", error);
+        alert("Erro ao atualizar o pedido. Consulte o console para mais detalhes.");
+      }
+    }
+
+    async function deleteOrder(orderId) {
+      const dbRef = ref(databaseInstance, `pedidos/${orderId}`);
+      try {
+        await remove(dbRef);
+        alert("Pedido excluído com sucesso!");
+      } catch (error) {
+        console.error("Erro ao excluir o pedido:", error);
+        alert("Erro ao excluir o pedido. Consulte o console para mais detalhes.");
+      }
+    }
+
+    function displayOrders(orders) {
+      const orderList = document.getElementById('orderList');
+      orderList.innerHTML = "";
+      orders.forEach(order => {
+        const orderItem = document.createElement('div');
+        orderItem.innerHTML = `
+          <p><strong>Link:</strong> ${order.link}</p>
+          <p><strong>Nome:</strong> ${order.name}</p>
+          <p><strong>Preço:</strong> ${order.price}</p>
+          <p><strong>Categoria:</strong> ${order.categoriaProduto}</p>
+          <p><strong>Data:</strong> ${order.time}</p>
+          <p><strong>Atendido:</strong> ${order.atendido}</p>
+          <p><strong>Comprador:</strong> ${order.owner}</p>
+          <p><strong>email:</strong> ${order.email}</p>
+          <p><strong>celular (wpp):</strong> ${order.wpp}</p>
+          <p><strong>Perfil steam:</strong> ${order.profile}</p>
+          <button onclick="markAsDone('${order.id}')">Atender</button>
+          <button onclick="deleteOrder('${order.id}')">Excluir</button>
+          <hr>
+        `;
+        orderList.appendChild(orderItem);
+      });
+    }
+
+    window.markAsDone = markAsDone;
+    window.deleteOrder = deleteOrder;
+  </script>
+</head>
+<body>
+  <div>
+    <h1>Lista de Pedidos</h1>
+    <div id="orderList"></div>
+  </div>
+</body>
+</html>

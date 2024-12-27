@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,19 +9,22 @@
     .container {
       display: flex;
     }
-    .left, .right {
+
+    .left,
+    .right {
       flex: 1;
       padding: 20px;
     }
+
     .right {
       background-color: #f4f4f4;
     }
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
     import { processText } from "./seguranca/seguranca.js";
-    
+
     async function loadConfig() {
       const response = await fetch('data.txt');
       const rawLines = (await response.text()).split('\\n');
@@ -52,6 +56,11 @@
       const name = document.getElementById('gameName').value;
       const price = document.getElementById('gamePrice').value;
       const hashDoBrowser = localStorage.getItem('hashDoBrowser');
+      const categoriaProduto = document.getElementById('categoriaProduto').value;
+      const owner = document.getElementById('owner').value;
+      const profile = document.getElementById('profile').value;
+      const email = document.getElementById('email').value;
+      const wpp = document.getElementById('wpp').value;
 
       if (link.trim() === "" || name.trim() === "" || price.trim() === "") {
         alert("Todos os campos são obrigatórios.");
@@ -64,9 +73,13 @@
           link: link,
           name: name,
           price: price,
+          categoriaProduto: categoriaProduto,
           time: new Date().toISOString(),
           atendido: false,
-          hashDoBrowser: hashDoBrowser
+          owner: owner,
+          profile: profile,
+          email: email,
+          wpp: wpp
         });
         alert("Pedido enviado com sucesso!");
       } catch (error) {
@@ -75,40 +88,14 @@
       }
     }
 
-    async function fetchOrders() {
-      const dbRef = ref(databaseInstance, "pedidos");
-      onValue(dbRef, (snapshot) => {
-        const orders = [];
-        snapshot.forEach((childSnapshot) => {
-          orders.push(childSnapshot.val());
-        });
-        orders.sort((a, b) => new Date(a.time) - new Date(b.time));
-        displayOrders(orders);
-      });
-    }
 
-    function displayOrders(orders) {
-      const orderList = document.getElementById('orderList');
-      orderList.innerHTML = "";
-      orders.forEach(order => {
-        const orderItem = document.createElement('div');
-        orderItem.innerHTML = `
-          <p><strong>Link:</strong> ${order.link}</p>
-          <p><strong>Nome:</strong> ${order.name}</p>
-          <p><strong>Preço:</strong> ${order.price}</p>
-          <p><strong>Data:</strong> ${order.time}</p>
-          <p><strong>Atendido:</strong> ${order.atendido}</p>
-          <p><strong>Hash:</strong> ${order.hashDoBrowser}</p>
-          <hr>
-        `;
-        orderList.appendChild(orderItem);
-      });
-    }
 
     window.saveOrder = saveOrder;
-    
+
+
   </script>
 </head>
+
 <body>
   <div class="container">
     <div class="left">
@@ -119,12 +106,24 @@
       <input type="text" id="gameName" placeholder="Digite aqui..." /><br><br>
       <label for="gamePrice">Digite o preço do jogo:</label><br>
       <input type="text" id="gamePrice" placeholder="Digite aqui..." /><br><br>
+      <select id="categoriaProduto">
+        <option value="aleatoria">Key aleatória</option>
+        <option value="premium">Key Premium</option>
+        <option value="encomenda">Jogo encomenda</option>
+        <option value="skin">Skin</option>
+      </select><br><br>
+      <label for="profile">Digite o link do seu perfil na Steam:</label><br>
+      <input type="text" id="profile" placeholder="Digite aqui..." /><br><br>
+      <label for="wpp">Digite o seu telefone (de preferencia whatsapp) no formato (00)00000-0000:</label><br>
+      <input type="text" id="wpp" placeholder="Digite aqui..." /><br><br>
+      <label for="email">Digite o seu email mais utilizado:</label><br>
+      <input type="text" id="email" placeholder="Digite aqui..." /><br><br>
+      <label for="owner">Digite o seu nome completo:</label><br>
+      <input type="text" id="owner" placeholder="Digite aqui..." /><br><br>
       <button onclick="saveOrder()">Confirmar</button>
     </div>
-    <div class="right">
-      <h1>Lista de Pedidos</h1>
-      <div id="orderList"></div>
-    </div>
+
   </div>
 </body>
+
 </html>
