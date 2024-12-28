@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Produtos</title>
+  <style>
+    .product-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    .product-item img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { processText } from "./seguranca/seguranca.js";
+
+    async function loadConfig() {
+      const response = await fetch('data.txt');
+      const rawLines = (await response.text()).split('\\n');
+
+      const key = 3;
+      const Data = rawLines.map(line => processText(line.trim(), key));
+
+      return {
+        apiKey: Data[0],
+        authDomain: Data[1],
+        databaseURL: "https://bdksell-default-rtdb.firebaseio.com/",
+        projectId: Data[1],
+        storageBucket: Data[2],
+        messagingSenderId: Data[3],
+        appId: Data[4],
+        measurementId: Data[5]
+      };
+    }
+
+    let databaseInstance;
+    loadConfig().then(config => {
+      const app = initializeApp(config);
+      databaseInstance = getDatabase(app);
+      fetchProducts();
+    });
+
+    async function fetchProducts() {
+      const dbRef = ref(databaseInstance, "produtos");
+      onValue(dbRef, (snapshot) => {
+        const products = [];
+        snapshot.forEach((childSnapshot) => {
+          const product = childSnapshot.val();
+          if (!product.vendido) {
+            product.id = childSnapshot.key; // Salvar a chave única do Firebase
+            products.push(product);
+          }
+        });
+        displayProducts(products);
+      });
+    }
+
+    async function markAsSold(productId) {
+      const dbRef = ref(databaseInstance, `produtos/${productId}`);
+      try {
+        await update(dbRef, { vendido: true });
+        alert("Produto marcado como vendido!");
+      } catch (error) {
+        console.error("Erro ao atualizar o produto:", error);
+        alert("Erro ao atualizar o produto. Consulte o console para mais detalhes.");
+      }
+    }
+
+    async function deleteProduct(productId) {
+      const dbRef = ref(databaseInstance, `produtos/${productId}`);
+      try {
+        await remove(dbRef);
+        alert("Produto excluído com sucesso!");
+      } catch (error) {
+        console.error("Erro ao excluir o produto:", error);
+        alert("Erro ao excluir o produto. Consulte o console para mais detalhes.");
+      }
+    }
+
+    function displayProducts(products) {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = "";
+      products.forEach(product => {
+        const productItem = document.createElement('div');
+        productItem.className = "product-item";
+        productItem.innerHTML = `
+          <p><strong>Nome:</strong> ${product.name}</p>
+          <p><strong>Categoria:</strong> ${product.categoriaProduto}</p>
+          <p><strong>Valor de Compra:</strong> ${product.valorCompra}</p>
+          <p><strong>Valor de Venda:</strong> ${product.valorVenda}</p>
+          <p><strong>Key/Codinome:</strong> ${product.keyCodinome}</p>
+          <p><strong>Vendido:</strong> ${product.vendido}</p>
+          <div>
+            <strong>Arte do Produto:</strong><br>
+            <img src="${product.arteProduto}" alt="Arte do Produto">
+          </div>
+          <div>
+            <strong>Fundo do Produto:</strong><br>
+            <img src="${product.fundoProduto}" alt="Fundo do Produto">
+          </div>
+          <button onclick="markAsSold('${product.id}')">Atender</button>
+          <button onclick="deleteProduct('${product.id}')">Excluir</button>
+          <hr>
+        `;
+        productList.appendChild(productItem);
+      });
+    }
+
+    window.markAsSold = markAsSold;
+    window.deleteProduct = deleteProduct;
+  </script>
+</head>
+<body>
+  <div>
+    <h1>Lista de Produtos</h1>
+    <div id="productList"></div>
+  </div>
+</body>
+</html>

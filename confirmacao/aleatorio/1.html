@@ -43,6 +43,7 @@
       localStorage.removeItem('linkId');
       localStorage.removeItem('hashDoBrowser');
       localStorage.removeItem('preco');
+      
       console.log("Local storage cleared.");
     }
 
@@ -52,9 +53,9 @@
       const missingKeys = requiredKeys.filter(key => !localStorage.getItem(key));
 
       if (missingKeys.length > 0) {
-        alert(`Missing keys in local storage: ${missingKeys.join(', ')}`);
+        console.log(`Missing keys in local storage: ${missingKeys.join(', ')}`);
         clearLocalStorage();
-        alert("Redirecionando para index.html devido à ausência de chaves no local storage.");
+        console.log("Redirecionando para index.html devido à ausência de chaves no local storage.");
         window.location.href = '../../index.html';
         return;
       }
@@ -72,19 +73,19 @@
       console.log(`Page file: ${pageFileName}, Page folder: ${pageFolder}`);
       console.log(`Query linkId: ${queryLinkId}, categoria: ${categoria}, Local Storage linkId: ${localStorageLinkId}`);
 
-      // Adicionando alertas para depuração
-      alert(`Valores de comparação: 
+      // Adicionando logs para depuração
+      console.log(`Valores de comparação: 
         Query linkId: ${queryLinkId}, 
         Local Storage linkId: ${localStorageLinkId}, 
         Page folder: ${pageFolder}, 
         Categoria: ${categoria}`);
 
       if (queryLinkId !== localStorageLinkId || categoria !== pageFolder) {
-        alert(`Discrepância encontrada: 
+        console.log(`Discrepância encontrada: 
           queryLinkId (${queryLinkId}) !== localStorageLinkId (${localStorageLinkId}) 
           OR categoria (${categoria}) !== pageFolder (${pageFolder})`);
         clearLocalStorage();
-        alert("Redirecionando para index.html devido a discrepâncias nos valores.");
+        console.log("Redirecionando para index.html devido a discrepâncias nos valores.");
         window.location.href = '../../index.html';
         return;
       }
@@ -114,9 +115,9 @@
           order.owner === nome && order.price === preco && order.hashDoBrowser === hashDoBrowser);
 
         if (!matchingOrder) {
-          alert("No matching order found.");
+          console.log("No matching order found.");
           clearLocalStorage();
-          alert("Redirecionando para erropagamento.html devido à falta de pedidos correspondentes.");
+          console.log("Redirecionando para erropagamento.html devido à falta de pedidos correspondentes.");
           window.location.href = '../../erropagamento.html';
           return;
         }
@@ -130,43 +131,56 @@
       console.log("Validating order...");
       const params = new URLSearchParams(window.location.search);
       const collectionId = params.get('collection_id');
-      const status = params.get('status');
+      const collectionStatus = params.get('collection_status');
       const paymentType = params.get('payment_type');
 
-      console.log(`Query parameters - Collection ID: ${collectionId}, Status: ${status}, Payment Type: ${paymentType}`);
+      console.log(`Query parameters - Collection ID: ${collectionId}, Collection Status: ${collectionStatus}, Payment Type: ${paymentType}`);
 
-      if (order.categoriaProduto === "aleatorio") {
-        const dbRef = ref(databaseInstance, `pedidos/${order.id}`);
+      const dbRef = ref(databaseInstance, `pedidos/${order.id}`);
+
+      if (collectionStatus === "approved") {
         try {
           console.log("Updating order as 'atendido' with additional details...");
           await update(dbRef, {
             atendido: true,
             collection_id: collectionId,
-            status: status,
+            status: "approved",
             payment_type: paymentType
           });
           console.log("Order updated successfully.");
-          alert("Pedido atualizado. Redirecionando para sorteador.html...");
-          clearLocalStorage(); // Garantir que o local storage seja limpo antes do redirecionamento
-          window.location.href = '../../sorteador.html';
+          // clearLocalStorage(); // Garantir que o local storage seja limpo antes do redirecionamento
+          console.log("Pedido atualizado. Redirecionando para sorteador.html...");
+          localStorage.setItem('randomizer', true);
+          window.location.href = '../../sorteador.html?categoria=aleatorio';
         } catch (error) {
           console.error("Erro ao atualizar o pedido:", error);
-          alert("Erro ao atualizar o pedido. Consulte o console para mais detalhes.");
+          console.log("Erro ao atualizar o pedido. Consulte o console para mais detalhes.");
         }
-      } else {
-        console.log("Order category is not 'aleatorio'. Redirecting to processandopagamento.html");
-        clearLocalStorage();
-        alert("Redirecionando para processandopagamento.html devido a categoria não ser 'aleatorio'.");
-        window.location.href = '../../processandopagamento.html';
+      } else if (collectionStatus === "pending") {
+        try {
+          console.log("Updating order without changing 'atendido' status...");
+          await update(dbRef, {
+            collection_id: collectionId,
+            status: "pending",
+            payment_type: paymentType
+          });
+          console.log("Order updated successfully.");
+          clearLocalStorage(); // Garantir que o local storage seja limpo antes do redirecionamento
+          console.log("Pedido pendente. Redirecionando para processandopagamento.html...");
+          window.location.href = '../../apps/ecommerce/catalog/processandoPagamento.html';
+        } catch (error) {
+          console.error("Erro ao atualizar o pedido:", error);
+          console.log("Erro ao atualizar o pedido. Consulte o console para mais detalhes.");
+        }
       }
     }
   </script>
 </head>
 
 <body>
-  <div>
-    <h1>Confirmação de Pedido</h1>
-  </div>
+  <div style="width: 100%; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0;">
+    <img src="../../caminhao.gif" alt="Caminhão em movimento" style="max-width: 100%; height: auto;">
+</div>
 </body>
 
 </html>

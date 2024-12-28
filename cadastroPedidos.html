@@ -172,10 +172,11 @@
       }
     });
   </script>
+  <scipt src="https://www.mercadopago.com/v2/security.js" view="home"></script>
 </head>
 
 <body>
-  <div class="container">
+  <!-- <div class="container">
     <div class="left">
       <h1>Cadastre um Pedido</h1>
       <label for="gameLink">Digite o link do jogo na Steam:</label><br>
@@ -202,7 +203,42 @@
       <input type="text" id="owner" placeholder="Digite aqui..." /><br><br>
       <button onclick="saveOrder()">Confirmar</button>
     </div>
-  </div>
+  </div> -->
+
+  <div style="width: 100%; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0;">
+    <img src="caminhao.gif" alt="Caminhão em movimento" style="max-width: 100%; height: auto;">
+</div>
+
+  <div class="container" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white;">
+    <div class="left" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white;">
+        <h1 style="color: white;">Cadastre um Pedido</h1>
+        <label for="gameLink" style="color: white;">Digite o link do jogo na Steam:</label><br>
+        <input type="text" id="gameLink" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="gameName" style="color: white;">Digite o nome do jogo:</label><br>
+        <input type="text" id="gameName" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="gamePrice" style="color: white;">Digite o preço do jogo:</label><br>
+        <input type="text" id="gamePrice" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="categoriaProduto" style="color: white;">Selecione a categoria do produto:</label><br>
+        <select id="categoriaProduto" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; -webkit-appearance: none; -moz-appearance: none; appearance: none;">
+            <option value="aleatorio" style="color: white; background-color: white;">Key aleatória</option>
+            <option value="premium" style="color: white; background-color: white;">Key Premium</option>
+            <option value="encomenda" style="color: white; background-color: white;">Jogo encomenda</option>
+            <option value="skin" style="color: white; background-color: white;">Skin</option>
+            <option value="especifico" style="color: white; background-color: white;">Key especifica</option>
+        </select><br><br>
+        <label for="profile" style="color: white;">Digite o link do seu perfil na Steam:</label><br>
+        <input type="text" id="profile" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="wpp" style="color: white;">Digite o seu telefone (de preferencia whatsapp) no formato (00)00000-0000:</label><br>
+        <input type="text" id="wpp" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="email" style="color: white;">Digite o seu email mais utilizado:</label><br>
+        <input type="text" id="email" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="owner" style="color: white;">Digite o seu nome completo:</label><br>
+        <input type="text" id="owner" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <button onclick="saveOrder()" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white;">Confirmar</button>
+    </div>
+</div>
+
+
 </body>
 
 </html>

@@ -90,6 +90,14 @@
           <p><strong>celular (wpp):</strong> ${order.wpp}</p>
           <p><strong>Perfil steam:</strong> ${order.profile}</p>
           <p><strong>hash:</strong> ${order.hashDoBrowser}</p>
+
+          <p><strong>ID PEDIDO MP:</strong> ${order.collection_id}</p>
+          <p><strong>Tipo de pagamento:</strong> ${order.payment_type}</p>
+          <p><strong>status pagamento:</strong> ${order.status}</p>
+          
+
+
+
           <button onclick="markAsDone('${order.id}')">Atender</button>
           <button onclick="deleteOrder('${order.id}')">Excluir</button>
           <hr>

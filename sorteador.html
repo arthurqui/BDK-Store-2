@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorteador</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { processText } from "./seguranca/seguranca.js"; // Importação correta do processText
+
+    async function loadConfig() {
+      const response = await fetch('data.txt');
+      const rawLines = (await response.text()).split('\\n');
+
+      const key = 3;
+      const Data = rawLines.map(line => processText(line.trim(), key));
+
+      return {
+        apiKey: Data[0],
+        authDomain: Data[1],
+        databaseURL: "https://bdksell-default-rtdb.firebaseio.com/",
+        projectId: Data[1],
+        storageBucket: Data[2],
+        messagingSenderId: Data[3],
+        appId: Data[4],
+        measurementId: Data[5]
+      };
+    }
+
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    let databaseInstance;
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    async function sortearProduto(categoria, telefone, nome, hashDoBrowser) {
+      const dbRefProdutos = ref(databaseInstance, "produtos");
+      const snapshotProdutos = await get(dbRefProdutos);
+      const produtos = [];
+
+      snapshotProdutos.forEach(childSnapshot => {
+        const produto = childSnapshot.val();
+        if (produto.categoriaProduto === categoria && !produto.vendido) {
+          produtos.push({ ...produto, id: childSnapshot.key });
+        }
+      });
+
+      const dbRefKeysPorTelefone = ref(databaseInstance, "keysPorTelefone");
+      const snapshotKeysPorTelefone = await get(dbRefKeysPorTelefone);
+      const jogosPorTelefone = snapshotKeysPorTelefone.val();
+      const jogosDoTelefone = jogosPorTelefone ? jogosPorTelefone[telefone] || {} : {};
+      const jogosJaSorteados = Object.values(jogosDoTelefone);
+
+      let produtosDisponiveis = produtos.filter(produto => !jogosJaSorteados.includes(produto.name));
+
+      if (produtosDisponiveis.length === 0) {
+        produtosDisponiveis = produtos;
+      }
+
+      if (produtosDisponiveis.length === 0) {
+        const dbRefPedidos = ref(databaseInstance, "pedidos");
+        const snapshotPedidos = await get(dbRefPedidos);
+        const pedidos = snapshotPedidos.val();
+
+        const pedidoCorrespondente = Object.entries(pedidos).find(([key, pedido]) =>
+          pedido.atendido && pedido.owner === nome && pedido.hashDoBrowser === hashDoBrowser);
+
+        if (pedidoCorrespondente) {
+          const [pedidoId, pedido] = pedidoCorrespondente;
+          await update(ref(databaseInstance, `pedidos/${pedidoId}`), { atendido: false });
+
+          localStorage.removeItem('jogo');
+          localStorage.removeItem('categoria');
+          localStorage.removeItem('link');
+          localStorage.removeItem('linkId');
+          localStorage.removeItem('hashDoBrowser');
+          localStorage.removeItem('preco');
+          localStorage.removeItem('randomizer');
+          window.location.href = 'apps/ecommerce/catalog/processandoPagamento.html';
+          return;
+        }
+
+        alert("Nenhum produto disponível para a categoria selecionada.");
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // Mistura (shuffle) dos produtos disponíveis
+      produtosDisponiveis = shuffleArray(produtosDisponiveis);
+
+      const produtoSorteado = produtosDisponiveis[Math.floor(Math.random() * produtosDisponiveis.length)];
+      const keyCodinome = produtoSorteado.keyCodinome;
+
+      const dbRefProdutoSorteado = ref(databaseInstance, `produtos/${produtoSorteado.id}`);
+      await update(dbRefProdutoSorteado, { vendido: true });
+
+      const dbRefTelefone = ref(databaseInstance, `keysPorTelefone/${telefone}`);
+      await update(dbRefTelefone, {
+        ...jogosDoTelefone,
+        [Object.keys(jogosDoTelefone).length + 1]: produtoSorteado.name
+      });
+
+      localStorage.removeItem('jogo');
+          localStorage.removeItem('categoria');
+          localStorage.removeItem('link');
+          localStorage.removeItem('linkId');
+          localStorage.removeItem('hashDoBrowser');
+          localStorage.removeItem('preco');
+          localStorage.removeItem('randomizer');
+      window.location.href = `apps/ecommerce/catalog/verKey.html?key=${keyCodinome}`;
+    }
+
+    loadConfig().then(config => {
+      const app = initializeApp(config);
+      databaseInstance = getDatabase(app);
+
+      const categoria = getQueryParam('categoria');
+      const randomizer = localStorage.getItem('randomizer');
+      const telefone = localStorage.getItem('celular');
+      const nome = localStorage.getItem('nome');
+      const hashDoBrowser = localStorage.getItem('hashDoBrowser');
+
+      console.log("Categoria:", categoria); // Adicionando log para depuração
+      console.log("Telefone:", telefone);   // Adicionando log para depuração
+      console.log("Nome:", nome);           // Adicionando log para depuração
+      console.log("HashDoBrowser:", hashDoBrowser); // Adicionando log para depuração
+
+      if (randomizer !== 'true') {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      if (!categoria || !telefone) {
+        alert("Categoria ou telefone não encontrados.");
+        window.location.href = 'index.html';
+        return;
+      }
+
+      sortearProduto(categoria, telefone, nome, hashDoBrowser);
+    });
+
+  </script>
+</head>
+
+<body>
+    <div style="width: 100%; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0;">
+        <img src="caminhao.gif" alt="Caminhão em movimento" style="max-width: 100%; height: auto;">
+    </div>
+</body>
+
+</html>
