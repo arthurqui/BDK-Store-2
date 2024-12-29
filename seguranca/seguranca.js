@@ -90,7 +90,7 @@ export function processText(input, key) {
   return output;
 }
 
-function logout() { window.location.href = "https://lojabdk.netlify.app" }
+function logout() { window.location.href = "https://lojabdk.vercel.app" }
 
 
 async function loadConfig() {
