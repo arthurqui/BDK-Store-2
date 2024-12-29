@@ -830,7 +830,6 @@
 						}
 
 						function comprarAgora() {
-							const conteudoPrincipal = document.getElementById('conteudoPrincipal');
 							const nomeJogo = dadosFormulario.nomeJogo;
 							const precoJogo = dadosFormulario.precoJogo.replace(',', '.');
 							const precoFloat = parseFloat(precoJogo);
@@ -842,20 +841,13 @@
 								return;
 							}
 
-							// Alterar o conteúdo da div 'conteudoPrincipal'
-							conteudoPrincipal.innerHTML = `
-        <div id="opcoesPagamento" style="text-align: center;">
-            <h2>Escolha a forma de pagamento</h2>
-            <div style="display: flex; justify-content: space-around;">
-                <button class="btn-green" id="pix" onclick="finalizarCompra('pix')">Pix</button>
-                <button class="btn-green" id="cartao" onclick="finalizarCompra('cartao')">Cartão</button>
-            </div>
-            <p style="margin-top: 2vh; color: #555;">
-                * As compras podem demorar até 3 dias para serem processadas e analisadas. Após aprovação, os jogos serão entregues diretamente via Steam, e-mail ou WhatsApp.
-            </p>
-        </div>
-    `;
+							const linkJogo = dadosFormulario.linkJogo; // Certifique-se de que o linkJogo esteja presente nos dados do formulário
+							const url = `/apps/ecommerce/catalog/pagamento.html?jogo=${encodeURIComponent(nomeJogo)}&link=${encodeURIComponent(linkJogo)}&preco=${encodeURIComponent(precoComDesconto)}&categoria=encomenda`;
+
+							// Redirecionar para a página de pagamento
+							window.location.href = url;
 						}
+
 
 						function finalizarCompra(tipoPagamento) {
 							const conteudoPrincipal = document.getElementById('conteudoPrincipal');

@@ -702,7 +702,7 @@
 						  
 							<!-- Sessão sobre o produto -->
 							<div class="mb-4">
-							  <h2 style="font-size: 20px; font-weight: bold;">Você está comprando:</h2>
+							  <h2 style="font-size: 20px; font-weight: bold;margin-top: 5vh;">Você está comprando:</h2>
 							  <p style="font-size: 18px;">
 								<a id="nomeProdutoLink" href="#" target="_blank" style="text-decoration: none; font-weight: bold; font-size: 5vh">
 								  <span id="nomeProduto"></span>
@@ -797,7 +797,7 @@
 								saveButton.disabled = !(emailValid && telefoneValid);
 							  }
 							} else {
-							  userDataSection.innerHTML = `<button id="goToPayment" style="font-size: 18px; padding: 10px 20px;">Ir para pagamento</button>`;
+							  userDataSection.innerHTML = `<button id="goToPayment" style="font-size: 18px; padding: 10px 20px; border-radius:12px">Ir para pagamento</button>`;
 							}
 						  
 							document.getElementById('goToPayment')?.addEventListener('click', () => {

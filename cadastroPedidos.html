@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste Firebase</title>
+  <title> </title>
   <style>
     .container {
       display: flex;
@@ -107,13 +107,14 @@
 
     async function openLinkById() {
       const linkId = localStorage.getItem('linkId');
+      const categoriaProduto = localStorage.getItem('categoria');
       if (!linkId) {
         console.error("linkId não encontrado no localStorage.");
         return;
       }
 
       try {
-        const response = await fetch('listas/aleatorio.txt');
+        const response = await fetch(`listas/${categoriaProduto}.txt`);
         const text = await response.text();
         const links = text.split('\n');
         const link = links[linkId - 1].trim(); // linkId é 1-based, índices do array são 0-based
@@ -171,8 +172,9 @@
         document.getElementById('owner').value = localStorage.getItem('nome');
       }
     });
-  </script>
-  <scipt src="https://www.mercadopago.com/v2/security.js" view="home"></script>
+</script>
+<script src="https://www.mercadopago.com/v2/security.js" view="home"></script>
+
 </head>
 
 <body>

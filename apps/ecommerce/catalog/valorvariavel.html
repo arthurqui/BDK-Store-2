@@ -5,7 +5,7 @@
 
 <head>
 	<base href="../../../">
-	<title>Ver Key</title>
+	<title>Fazer pedido</title>
 	<meta charset="utf-8" />
 	<meta name="description" content="Loja BDK, a loja de keys para steam com preços menores que da Steam." />
 	<meta name="keywords" content="BDK, Brasil Drop Keys, paraiba bdk, keys, steam ,skins" />
@@ -79,7 +79,7 @@
 							<!--begin::Title-->
 							<h1
 								class="page-heading d-flex text-dark fw-bolder fs-3 flex-column justify-content-center my-0">
-								Ver Key</h1>
+								Fazer pedido</h1>
 							<!--end::Title-->
 
 						</div>
@@ -688,84 +688,116 @@
 						<!--begin::Col-->
 
 						<!--begin::Address-->
-						<div align="center" class="card-body pt-0">
-							<!-- Texto de processamento de pagamento -->
-							<div class="container" style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
-							  <h1 style="font-size: 36px; font-weight: bold; margin-bottom: 20px;">
-								Seu pagamento está em análise no mecanismo de pagamento e em breve será aprovado!
-							  </h1>
-							  <p style="font-size: 18px; margin-bottom: 20px;">
-								Dentro de um prazo de até 3 dias você receberá via email ou celular (whatsapp) o seu código de ativação, ou o jogo na sua prorpia steam como presente.
-							  </p>
-							  <p style="font-size: 18px; margin-bottom: 20px;">
-								Caso tenha dúvidas, envie um email para <a href="mailto:brasildropgames@gmail.com" style="text-decoration: none;">brasildropgames@gmail.com</a> e em breve você será respondido!
-							  </p>
-							  <button id="returnHome" style="padding: 15px 30px; font-size: 18px; border-radius: 10px; cursor: pointer;">
-								Retornar ao menu principal
-							  </button>
-							</div>
-						  
-							<script>
-							  // Ação do botão "Retornar ao menu principal"
-							  document.getElementById('returnHome').addEventListener('click', () => {
-								window.location.href = 'index.html';
-							  });
-							</script>
-						  </div>
-						  
-						  
 
+						
 
-
-								<!--end::Details-->
-
-							</div>
-							<!--end::Address-->
-
-							<!--end::Col-->
-
-
-
-							<!--end::Addresses-->
-
+						<div style="display: flex; justify-content: space-between; align-items: center; margin: 20px;">
+							<p id="textoPagamento" style="font-size: 2vh;">
+								Para realizar o pagamento, preencha o valor ("preco" salvo em local storage) no pagamento do mercado pago abaixo, Clique em escolher meio de pagamento, PAGUE e logo após efetuar o pagamento aperte o botão ao lado para finalizar.
+								<br><br>
+								Obs.: Caso você não finalize o pagamento abaixo e clique em "Já paguei" o pedido será cancelado na análise.
+							</p>
+							<button
+								style="background-color: blue; color: white; padding: 10px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 18px;margin-left: 2vw;"
+								onclick="finalizarPagamento()">
+								Já paguei
+							</button>
 						</div>
-						<!--end::Card body-->
-					</div>
-					<!--end::Pagamento-->
-					<!--end:::Main-->
-				</div>
-				<!--end::Wrapper-->
-			</div>
-			<!--end::Page-->
-		</div>
-		<!--end::Root-->
+						
+						<script>
+							// Função para obter o valor do preço salvo no local storage
+							function obterPreco() {
+								return localStorage.getItem('preco') || '0,00';
+							}
+						
+							// Concatenar o valor do preço no texto
+							function exibirPreco() {
+								const preco = obterPreco();
+								document.getElementById('textoPagamento').innerHTML = `Para realizar o pagamento, preencha o valor <b>${preco}</b> no pagamento do mercado pago abaixo, Clique em escolher meio de pagamento, <b>PAGUE</b> e logo após efetuar o pagamento aperte o botão ao lado para finalizar.<br><br>Obs.: Caso você não finalize o pagamento abaixo e clique em "Já paguei" o pedido será cancelado na análise.`;
+							}
+						
+							// Função para finalizar pagamento e remover itens do local storage
+							function finalizarPagamento() {
+								localStorage.removeItem('jogo');
+								localStorage.removeItem('categoria');
+								localStorage.removeItem('link');
+								localStorage.removeItem('linkId');
+								localStorage.removeItem('hashDoBrowser');
+								localStorage.removeItem('preco');
+								localStorage.removeItem('randomizer');
+								window.location.href = '/apps/ecommerce/catalog/processandoPagamento.html';
+							}
+						
+							// Função para verificar se todos os valores estão no local storage
+							function verificarLocalStorage() {
+								const requiredItems = ['jogo', 'categoria', 'link', 'linkId', 'hashDoBrowser', 'preco'];
+								const missingItem = requiredItems.find(item => !localStorage.getItem(item));
+								if (missingItem) {
+									window.location.href = 'index.html';
+								}
+							}
+						
+							// Verificar local storage ao carregar a página
+							verificarLocalStorage();
+						
+							// Chamar a função ao carregar a página
+							exibirPreco();
+						</script>
+						
 
-		<!--begin::Javascript-->
-		<script>var hostUrl = "assets/";</script>
-		<!--begin::Global Javascript Bundle(used by all pages)-->
-		<script src="assets/plugins/global/plugins.bundle.js"></script>
-		<script src="assets/js/scripts.bundle.js"></script>
-		<!--end::Global Javascript Bundle-->
-		<!--begin::Page Vendors Javascript(used by this page)-->
-		<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
-		<!--end::Page Vendors Javascript-->
-		<!--begin::Page Custom Javascript(used by this page)-->
-		<script src="assets/js/custom/apps/ecommerce/catalog/products.js"></script>
-		<script src="assets/js/widgets.bundle.js"></script>
-		<script src="assets/js/custom/widgets.js"></script>
-		<script src="assets/js/custom/apps/chat/chat.js"></script>
-		<script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/type.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/budget.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/settings.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/team.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/targets.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/files.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/complete.js"></script>
-		<script src="assets/js/custom/utilities/modals/create-project/main.js"></script>
-		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
-		<!--end::Page Custom Javascript-->
-		<!--end::Javascript-->
+						<div style="height: 80vh;">
+							<iframe src="https://link.mercadopago.com.br/lojabdk"
+								style="width: 100%; height: 100%; border: none;"></iframe>
+						</div>
+
+
+
+						<!--end::Address-->
+
+						<!--end::Col-->
+
+
+
+						<!--end::Addresses-->
+
+					</div>
+					<!--end::Card body-->
+				</div>
+				<!--end::Pagamento-->
+				<!--end:::Main-->
+			</div>
+			<!--end::Wrapper-->
+		</div>
+		<!--end::Page-->
+	</div>
+	<!--end::Root-->
+
+	<!--begin::Javascript-->
+	<script>var hostUrl = "assets/";</script>
+	<!--begin::Global Javascript Bundle(used by all pages)-->
+	<script src="assets/plugins/global/plugins.bundle.js"></script>
+	<script src="assets/js/scripts.bundle.js"></script>
+	<!--end::Global Javascript Bundle-->
+	<!--begin::Page Vendors Javascript(used by this page)-->
+	<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+	<!--end::Page Vendors Javascript-->
+	<!--begin::Page Custom Javascript(used by this page)-->
+	<script src="assets/js/custom/apps/ecommerce/catalog/products.js"></script>
+	<script src="assets/js/widgets.bundle.js"></script>
+	<script src="assets/js/custom/widgets.js"></script>
+	<script src="assets/js/custom/apps/chat/chat.js"></script>
+	<script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/type.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/budget.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/settings.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/team.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/targets.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/files.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/complete.js"></script>
+	<script src="assets/js/custom/utilities/modals/create-project/main.js"></script>
+	<script src="assets/js/custom/utilities/modals/users-search.js"></script>
+	<!--end::Page Custom Javascript-->
+	<!--end::Javascript-->
 </body>
 <!--end::Body-->
 

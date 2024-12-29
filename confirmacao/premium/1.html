@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmação de Pedido</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { processText } from "../../seguranca/seguranca.js"; // Caminho atualizado para acessar seguranca.js
+
+    async function loadConfig() {
+      const response = await fetch('../../data.txt');
+      const rawLines = (await response.text()).split('\\n');
+
+      const key = 3;
+      const Data = rawLines.map(line => processText(line.trim(), key));
+
+      return {
+        apiKey: Data[0],
+        authDomain: Data[1],
+        databaseURL: "https://bdksell-default-rtdb.firebaseio.com/",
+        projectId: Data[1],
+        storageBucket: Data[2],
+        messagingSenderId: Data[3],
+        appId: Data[4],
+        measurementId: Data[5]
+      };
+    }
+
+    let databaseInstance;
+    loadConfig().then(config => {
+      const app = initializeApp(config);
+      databaseInstance = getDatabase(app);
+      validateAndFetchOrders();
+    });
+
+    function clearLocalStorage() {
+      localStorage.removeItem('jogo');
+      localStorage.removeItem('categoria');
+      localStorage.removeItem('link');
+      localStorage.removeItem('linkId');
+      localStorage.removeItem('hashDoBrowser');
+      localStorage.removeItem('preco');
+      
+      console.log("Local storage cleared.");
+    }
+
+    function validateAndFetchOrders() {
+      console.log("Starting validation process...");
+      const requiredKeys = ['celular', 'email', 'nome', 'perfil', 'jogo', 'categoria', 'link', 'hashDoBrowser', 'preco'];
+      const missingKeys = requiredKeys.filter(key => !localStorage.getItem(key));
+
+      if (missingKeys.length > 0) {
+        console.log(`Missing keys in local storage: ${missingKeys.join(', ')}`);
+        clearLocalStorage();
+        console.log("Redirecionando para index.html devido à ausência de chaves no local storage.");
+        window.location.href = '../../index.html';
+        return;
+      }
+
+      console.log("All required keys are present in local storage.");
+
+      const params = new URLSearchParams(window.location.search);
+      const queryLinkId = params.get('linkid');
+      const pagePath = window.location.pathname.split('/');
+      const pageFileName = pagePath.pop();
+      const pageFolder = pagePath.pop();
+      const categoria = localStorage.getItem('categoria');
+      const localStorageLinkId = localStorage.getItem('linkId');
+
+      console.log(`Page file: ${pageFileName}, Page folder: ${pageFolder}`);
+      console.log(`Query linkId: ${queryLinkId}, categoria: ${categoria}, Local Storage linkId: ${localStorageLinkId}`);
+
+      // Adicionando logs para depuração
+      console.log(`Valores de comparação: 
+        Query linkId: ${queryLinkId}, 
+        Local Storage linkId: ${localStorageLinkId}, 
+        Page folder: ${pageFolder}, 
+        Categoria: ${categoria}`);
+
+      if (queryLinkId !== localStorageLinkId || categoria !== pageFolder) {
+        console.log(`Discrepância encontrada: 
+          queryLinkId (${queryLinkId}) !== localStorageLinkId (${localStorageLinkId}) 
+          OR categoria (${categoria}) !== pageFolder (${pageFolder})`);
+        clearLocalStorage();
+        console.log("Redirecionando para index.html devido a discrepâncias nos valores.");
+        window.location.href = '../../index.html';
+        return;
+      }
+
+      console.log("Query linkId and category match local storage values.");
+      fetchOrders();
+    }
+
+    async function fetchOrders() {
+      console.log("Fetching orders from Firebase...");
+      const dbRef = ref(databaseInstance, "pedidos");
+      onValue(dbRef, (snapshot) => {
+        const orders = [];
+        snapshot.forEach((childSnapshot) => {
+          const order = childSnapshot.val();
+          order.id = childSnapshot.key; // Salvar a chave única do Firebase
+          orders.push(order);
+        });
+
+        console.log("Orders fetched:", orders);
+
+        const nome = localStorage.getItem('nome');
+        const preco = localStorage.getItem('preco');
+        const hashDoBrowser = localStorage.getItem('hashDoBrowser');
+
+        const matchingOrder = orders.find(order =>
+          order.owner === nome && order.price === preco && order.hashDoBrowser === hashDoBrowser);
+
+        if (!matchingOrder) {
+          console.log("No matching order found.");
+          clearLocalStorage();
+          console.log("Redirecionando para erropagamento.html devido à falta de pedidos correspondentes.");
+          window.location.href = '../../erropagamento.html';
+          return;
+        }
+
+        console.log("Matching order found:", matchingOrder);
+        validateOrder(matchingOrder);
+      });
+    }
+
+    async function validateOrder(order) {
+      console.log("Validating order...");
+      const params = new URLSearchParams(window.location.search);
+      const collectionId = params.get('collection_id');
+      const collectionStatus = params.get('collection_status');
+      const paymentType = params.get('payment_type');
+
+      console.log(`Query parameters - Collection ID: ${collectionId}, Collection Status: ${collectionStatus}, Payment Type: ${paymentType}`);
+
+      const dbRef = ref(databaseInstance, `pedidos/${order.id}`);
+
+      if (collectionStatus === "approved") {
+        try {
+          console.log("Updating order as 'atendido' with additional details...");
+          await update(dbRef, {
+            atendido: true,
+            collection_id: collectionId,
+            status: "approved",
+            payment_type: paymentType
+          });
+          console.log("Order updated successfully.");
+          // clearLocalStorage(); // Garantir que o local storage seja limpo antes do redirecionamento
+          console.log("Pedido atualizado. Redirecionando para sorteador.html...");
+          localStorage.setItem('randomizer', true);
+          window.location.href = '../../sorteador.html?categoria=premium';
+        } catch (error) {
+          console.error("Erro ao atualizar o pedido:", error);
+          console.log("Erro ao atualizar o pedido. Consulte o console para mais detalhes.");
+        }
+      } else if (collectionStatus === "pending") {
+        try {
+          console.log("Updating order without changing 'atendido' status...");
+          await update(dbRef, {
+            collection_id: collectionId,
+            status: "pending",
+            payment_type: paymentType
+          });
+          console.log("Order updated successfully.");
+          clearLocalStorage(); // Garantir que o local storage seja limpo antes do redirecionamento
+          console.log("Pedido pendente. Redirecionando para processandopagamento.html...");
+          window.location.href = '../../apps/ecommerce/catalog/processandoPagamento.html';
+        } catch (error) {
+          console.error("Erro ao atualizar o pedido:", error);
+          console.log("Erro ao atualizar o pedido. Consulte o console para mais detalhes.");
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div style="width: 100%; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0;">
+    <img src="../../caminhao.gif" alt="Caminhão em movimento" style="max-width: 100%; height: auto;">
+</div>
+</body>
+
+</html>
