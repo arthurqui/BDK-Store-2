@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capturar Referrer</title>
+</head>
+<body>
+    <h1>Bem-vindo à minha página!</h1>
+    <p id="referrer-info"></p>
+
+    <script>
+        // Obtém o URL da página anterior
+        const referrer = document.referrer;
+
+        // Exibe o referrer na página (apenas para teste)
+        const referrerInfo = document.getElementById('referrer-info');
+        if (referrer) {
+            referrerInfo.textContent = `Você veio de: ${referrer}`;
+        } else {
+            referrerInfo.textContent = "Não há informação sobre a página anterior.";
+        }
+
+        // Opcional: Enviar o referrer para o servidor via API ou salvar no localStorage
+        // localStorage.setItem('referrer', referrer);
+        // ou
+        // fetch('/salvar-referrer', { method: 'POST', body: JSON.stringify({ referrer }) });
+    </script>
+</body>
+</html>

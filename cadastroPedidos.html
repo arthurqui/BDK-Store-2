@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> </title>
+  <style>
+    .container {
+      display: flex;
+    }
+
+    .left,
+    .right {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .right {
+      background-color: #f4f4f4;
+    }
+  </style>
+  <script type="module">
+    // Certifique-se de que a biblioteca Firebase está sendo importada corretamente
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { processText } from "./seguranca/seguranca.js";
+
+    async function loadConfig() {
+      const response = await fetch('data.txt');
+      const rawLines = (await response.text()).split('\\n');
+
+      const key = 3;
+      const Data = rawLines.map(line => processText(line.trim(), key));
+
+      return {
+        apiKey: Data[0],
+        authDomain: Data[1],
+        databaseURL: "https://bdksell-default-rtdb.firebaseio.com/",
+        projectId: Data[1],
+        storageBucket: Data[2],
+        messagingSenderId: Data[3],
+        appId: Data[4],
+        measurementId: Data[5]
+      };
+    }
+
+    let databaseInstance;
+    loadConfig().then(config => {
+      const app = initializeApp(config);
+      databaseInstance = getDatabase(app);
+      // Removi temporariamente a chamada para `fetchOrders`
+    });
+
+    // Função `fetchOrders` apenas como exemplo vazio. Implemente se necessário
+    function fetchOrders() {
+      console.log('fetchOrders chamada');
+    }
+
+    async function saveOrder() {
+      const link = document.getElementById('gameLink').value;
+      const name = document.getElementById('gameName').value;
+      const price = document.getElementById('gamePrice').value;
+      const hashDoBrowser = generateHashDoBrowser();
+      const categoriaProduto = document.getElementById('categoriaProduto').value;
+      const owner = document.getElementById('owner').value;
+      const profile = document.getElementById('profile').value;
+      const email = document.getElementById('email').value;
+      const wpp = document.getElementById('wpp').value;
+
+      if (link.trim() === "" || name.trim() === "" || price.trim() === "") {
+        alert("Todos os campos são obrigatórios.");
+        return;
+      }
+
+      localStorage.setItem('hashDoBrowser', hashDoBrowser);
+
+      try {
+        const dbRef = ref(databaseInstance, "pedidos");
+        await push(dbRef, {
+          link: link,
+          name: name,
+          price: price,
+          categoriaProduto: categoriaProduto,
+          time: new Date().toISOString(),
+          atendido: false,
+          owner: owner,
+          profile: profile,
+          email: email,
+          wpp: wpp,
+          hashDoBrowser: hashDoBrowser
+        });
+        console.log("Pedido enviado com sucesso!");
+        
+        // Abrir link correspondente ao linkId após salvar o pedido
+        openLinkById();
+      } catch (error) {
+        console.error("Erro ao salvar o pedido:", error);
+        alert("Erro ao salvar o pedido. Consulte o console para mais detalhes.");
+      }
+    }
+
+    function generateHashDoBrowser() {
+      // Função para gerar hashDoBrowser (exemplo simples)
+      return Math.random().toString(36).substring(2) + Date.now().toString(36);
+    }
+
+    async function openLinkById() {
+      const linkId = localStorage.getItem('linkId');
+      const categoriaProduto = localStorage.getItem('categoria');
+      if (!linkId) {
+        console.error("linkId não encontrado no localStorage.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`listas/${categoriaProduto}.txt`);
+        const text = await response.text();
+        const links = text.split('\n');
+        const link = links[linkId - 1].trim(); // linkId é 1-based, índices do array são 0-based
+
+        if (link) {
+          window.location.href = link;
+        } else {
+          console.error("Link não encontrado na linha correspondente.");
+        }
+      } catch (error) {
+        console.error("Erro ao carregar o arquivo de links:", error);
+      }
+    }
+
+    window.saveOrder = saveOrder;
+
+    function checkFieldsAndSubmit() {
+      const requiredFields = ['gameLink', 'gameName', 'gamePrice', 'categoriaProduto', 'profile', 'wpp', 'email', 'owner'];
+
+      const allFilled = requiredFields.every(id => {
+        const value = document.getElementById(id).value.trim();
+        return value !== '';
+      });
+
+      if (allFilled) {
+        document.querySelector('button[onclick="saveOrder()"]').click();
+        clearInterval(intervalId); // Finaliza a verificação após o clique
+      }
+    }
+
+    // Verificar se todos os campos estão preenchidos a cada 500ms
+    const intervalId = setInterval(checkFieldsAndSubmit, 500);
+
+    // Verificar presença de dados no local storage ao carregar a página
+    document.addEventListener('DOMContentLoaded', () => {
+      const requiredKeys = ['celular', 'email', 'nome', 'perfil', 'jogo', 'preco', 'categoria', 'linkId', 'link'];
+      const missingKeys = requiredKeys.filter(key => !localStorage.getItem(key));
+
+      if (missingKeys.length > 0) {
+        localStorage.removeItem('hashDoBrowser');
+        localStorage.removeItem('jogo');
+        localStorage.removeItem('preco');
+        localStorage.removeItem('categoria');
+        localStorage.removeItem('linkId');
+        localStorage.removeItem('link');
+        window.location.href = 'https://lojabdk.vercel.app';
+      } else {
+        document.getElementById('gameLink').value = localStorage.getItem('link');
+        document.getElementById('gameName').value = localStorage.getItem('jogo');
+        document.getElementById('gamePrice').value = localStorage.getItem('preco');
+        document.getElementById('categoriaProduto').value = localStorage.getItem('categoria');
+        document.getElementById('profile').value = localStorage.getItem('perfil');
+        document.getElementById('wpp').value = localStorage.getItem('celular');
+        document.getElementById('email').value = localStorage.getItem('email');
+        document.getElementById('owner').value = localStorage.getItem('nome');
+      }
+    });
+</script>
+<script src="https://www.mercadopago.com/v2/security.js" view="home"></script>
+
+</head>
+
+<body>
+  <!-- <div class="container">
+    <div class="left">
+      <h1>Cadastre um Pedido</h1>
+      <label for="gameLink">Digite o link do jogo na Steam:</label><br>
+      <input type="text" id="gameLink" placeholder="Digite aqui..." /><br><br>
+      <label for="gameName">Digite o nome do jogo:</label><br>
+      <input type="text" id="gameName" placeholder="Digite aqui..." /><br><br>
+      <label for="gamePrice">Digite o preço do jogo:</label><br>
+      <input type="text" id="gamePrice" placeholder="Digite aqui..." /><br><br>
+      <label for="gamePrice">Selecione a categoria do produto:</label><br>
+      <select id="categoriaProduto">
+        <option value="aleatorio">Key aleatória</option>
+        <option value="premium">Key Premium</option>
+        <option value="encomenda">Jogo encomenda</option>
+        <option value="skin">Skin</option>
+        <option value="especifico">Key especifica</option>
+      </select><br><br>
+      <label for="profile">Digite o link do seu perfil na Steam:</label><br>
+      <input type="text" id="profile" placeholder="Digite aqui..." /><br><br>
+      <label for="wpp">Digite o seu telefone (de preferencia whatsapp) no formato (00)00000-0000:</label><br>
+      <input type="text" id="wpp" placeholder="Digite aqui..." /><br><br>
+      <label for="email">Digite o seu email mais utilizado:</label><br>
+      <input type="text" id="email" placeholder="Digite aqui..." /><br><br>
+      <label for="owner">Digite o seu nome completo:</label><br>
+      <input type="text" id="owner" placeholder="Digite aqui..." /><br><br>
+      <button onclick="saveOrder()">Confirmar</button>
+    </div>
+  </div> -->
+
+  <div style="width: 100%; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0;">
+    <img src="caminhao.gif" alt="Caminhão em movimento" style="max-width: 100%; height: auto;">
+</div>
+
+  <div class="container" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white;">
+    <div class="left" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white;">
+        <h1 style="color: white;">Cadastre um Pedido</h1>
+        <label for="gameLink" style="color: white;">Digite o link do jogo na Steam:</label><br>
+        <input type="text" id="gameLink" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="gameName" style="color: white;">Digite o nome do jogo:</label><br>
+        <input type="text" id="gameName" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="gamePrice" style="color: white;">Digite o preço do jogo:</label><br>
+        <input type="text" id="gamePrice" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="categoriaProduto" style="color: white;">Selecione a categoria do produto:</label><br>
+        <select id="categoriaProduto" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; -webkit-appearance: none; -moz-appearance: none; appearance: none;">
+            <option value="aleatorio" style="color: white; background-color: white;">Key aleatória</option>
+            <option value="premium" style="color: white; background-color: white;">Key Premium</option>
+            <option value="encomenda" style="color: white; background-color: white;">Jogo encomenda</option>
+            <option value="skin" style="color: white; background-color: white;">Skin</option>
+            <option value="especifico" style="color: white; background-color: white;">Key especifica</option>
+        </select><br><br>
+        <label for="profile" style="color: white;">Digite o link do seu perfil na Steam:</label><br>
+        <input type="text" id="profile" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="wpp" style="color: white;">Digite o seu telefone (de preferencia whatsapp) no formato (00)00000-0000:</label><br>
+        <input type="text" id="wpp" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="email" style="color: white;">Digite o seu email mais utilizado:</label><br>
+        <input type="text" id="email" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <label for="owner" style="color: white;">Digite o seu nome completo:</label><br>
+        <input type="text" id="owner" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white; caret-color: white;" /><br><br>
+        <button onclick="saveOrder()" style="background-color: white; color: white; border: 1px solid white; box-shadow: 0px 0px 10px white;">Confirmar</button>
+    </div>
+</div>
+
+
+</body>
+
+</html>

@@ -3,6 +3,36 @@
 <html lang="en">
 	<!--begin::Head-->
 	<head><base href="../../../">
+		<script>
+        function verificarERedirecionar() {
+            var urlAtual = window.location.href;
+
+            if (urlAtual === "https://lojabdk.netlify.app/") {
+                window.location.href = "https://lojabdk.vercel.app/";
+                return;
+            }
+
+            if (urlAtual.includes(".netlify.app")) {
+                var novoUrl = urlAtual.replace(".netlify.app", ".vercel.app");
+
+                if (novoUrl.includes(".html?") || novoUrl.includes(".html/?")) {
+                    // Se já tiver ".html?" ou ".html/?", troca apenas o domínio e redireciona
+                    window.location.href = novoUrl;
+                    return;
+                } else if (novoUrl.includes("?")) {
+                    // Verifica se a URL tem uma query string e ajusta conforme necessário
+                    novoUrl = novoUrl.replace("/?", ".html/?").replace("?", ".html?");
+                } else if (!novoUrl.endsWith(".html")) {
+                    // Adiciona .html ao final se não tiver query string e não terminar com .html
+                    novoUrl += ".html";
+                }
+
+                window.location.href = novoUrl;
+            }
+        }
+
+        window.onload = verificarERedirecionar;
+    </script>
 		<title>Jogo Premium</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="Loja BDK, a loja de keys para steam com preços menores que da Steam." />
@@ -11,9 +41,9 @@
 		<meta property="og:locale" content="pt_BR" />
 		<meta property="og:type" content="article" />
 		<meta property="og:title" content="Loja de Keys BDK - Preços mais baixos que da Steam!" />
-		<meta property="og:url" content="https://lojabdk.netlify.app/" />
+		<meta property="og:url" content="https://lojabdk.vercel.app/" />
 		 <meta property="og:site_name" content="Loja BDK" />
-		<link rel="canonical" href="https://lojabdk.netlify.app/" />
+		<link rel="canonical" href="https://lojabdk.vercel.app/" />
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 		<!--begin::Fonts-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -762,7 +792,7 @@
 																		
 																		
 																		<!--begin::Description-->
-																		<div style="padding-right:3% ;" class="text-muted fs-7"><h1 align="right">R$ 10,00</h1></div>
+																		<div style="padding-right:3% ;" class="text-muted fs-7"><h1 align="right">R$ 12,00</h1></div>
 																		<!--end::Description-->
 																	</div>
 																	<!--end::Input group-->
@@ -775,7 +805,7 @@
 																	<!--begin::Description-->
 																	<div class="text-muted fs-7"><p style="font-size:x-large" align="center"><br>Compre e ganhe um jogo aleatório de mais de R$ 20,00 para Steam!!<br><br>
 																		
-																		<a style="font-size:xx-large ; padding-left:20% ;padding-right:20% ; margin-top: 15px;" href="/apps/ecommerce/catalog/pagamento.html"  class="btn btn-primary ">Comprar</a></p>
+																		<a style="font-size:xx-large ; padding-left:20% ;padding-right:20% ; margin-top: 15px;" href="/apps/ecommerce/catalog/pagamento.html?jogo=Jogo Aleatório Premium&link=https://lojabdk.vercel.app/apps/ecommerce/catalog/jogoaleatoriopremium&preco=12,00&categoria=premium"  class="btn btn-primary ">Comprar</a></p>
 																	</div>
 																	<!--end::Description-->
 																</div>

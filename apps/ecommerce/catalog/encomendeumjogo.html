@@ -5,6 +5,36 @@
 
 <head>
 	<base href="../../../">
+	<script>
+        function verificarERedirecionar() {
+            var urlAtual = window.location.href;
+
+            if (urlAtual === "https://lojabdk.netlify.app/") {
+                window.location.href = "https://lojabdk.vercel.app/";
+                return;
+            }
+
+            if (urlAtual.includes(".netlify.app")) {
+                var novoUrl = urlAtual.replace(".netlify.app", ".vercel.app");
+
+                if (novoUrl.includes(".html?") || novoUrl.includes(".html/?")) {
+                    // Se já tiver ".html?" ou ".html/?", troca apenas o domínio e redireciona
+                    window.location.href = novoUrl;
+                    return;
+                } else if (novoUrl.includes("?")) {
+                    // Verifica se a URL tem uma query string e ajusta conforme necessário
+                    novoUrl = novoUrl.replace("/?", ".html/?").replace("?", ".html?");
+                } else if (!novoUrl.endsWith(".html")) {
+                    // Adiciona .html ao final se não tiver query string e não terminar com .html
+                    novoUrl += ".html";
+                }
+
+                window.location.href = novoUrl;
+            }
+        }
+
+        window.onload = verificarERedirecionar;
+    </script>
 	<title>Encomendar jogo</title>
 	<meta charset="utf-8" />
 	<meta name="description" content="Loja BDK, a loja de keys para steam com preços menores que da Steam." />
@@ -13,9 +43,9 @@
 	<meta property="og:locale" content="pt_BR" />
 	<meta property="og:type" content="article" />
 	<meta property="og:title" content="Loja de Keys BDK - Preços mais baixos que da Steam!" />
-	<meta property="og:url" content="https://lojabdk.netlify.app/" />
+	<meta property="og:url" content="https://lojabdk.vercel.app/" />
 	<meta property="og:site_name" content="Loja BDK" />
-	<link rel="canonical" href="https://lojabdk.netlify.app/" />
+	<link rel="canonical" href="https://lojabdk.vercel.app/" />
 	<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 	<!--begin::Fonts-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -831,7 +861,7 @@
 						}
 
 						function comprarAgora() {
-							const nomeJogo = dadosFormulario.nomeJogo; // Recupera os valores salvos
+							const nomeJogo = dadosFormulario.nomeJogo;
 							const precoJogo = dadosFormulario.precoJogo.replace(',', '.');
 							const precoFloat = parseFloat(precoJogo);
 							const desconto = (precoFloat * 0.15).toFixed(2);
@@ -842,11 +872,35 @@
 								return;
 							}
 
-							// Codificar apenas o nome do jogo e preservar os espaços como espaço
-							const nomeJogoCodificado = nomeJogo.split('+').join(' '); // Substitui os espaços por '+' no nome do jogo
-							const texto = `Oi, gostaria de comprar o jogo ${nomeJogoCodificado} pagando apenas R$ ${precoComDesconto}`;
-							const link = `https://web.whatsapp.com/send/?phone=5512997985226&text=${encodeURIComponent(texto)}`;
-							window.open(link, '_blank');
+							const linkJogo = dadosFormulario.linkJogo; // Certifique-se de que o linkJogo esteja presente nos dados do formulário
+							const url = `/apps/ecommerce/catalog/pagamento.html?jogo=${encodeURIComponent(nomeJogo)}&link=${encodeURIComponent(linkJogo)}&preco=${encodeURIComponent(precoComDesconto)}&categoria=encomenda`;
+
+							// Redirecionar para a página de pagamento
+							window.location.href = url;
+						}
+
+
+						function finalizarCompra(tipoPagamento) {
+							const conteudoPrincipal = document.getElementById('conteudoPrincipal');
+
+							// Exibe uma mensagem de confirmação baseada na escolha do pagamento
+							let mensagemPagamento = '';
+							if (tipoPagamento === 'pix') {
+								mensagemPagamento = 'Você escolheu Pix. Vamos processar seu pagamento!';
+							} else if (tipoPagamento === 'cartao') {
+								mensagemPagamento = 'Você escolheu Cartão. Vamos processar seu pagamento!';
+							}
+
+							// Alterar o conteúdo para confirmar a escolha do pagamento
+							conteudoPrincipal.innerHTML = `
+        <div id="confirmacaoCompra" style="text-align: center;">
+            <h2>${mensagemPagamento}</h2>
+            <p style="color: #006400; margin-top: 2vh;">
+                Obrigado pela sua compra! Aguarde enquanto processamos o seu pedido.
+            </p>
+            <button class="btn-green" onclick="voltar()">Voltar</button>
+        </div>
+    `;
 						}
 
 
@@ -865,8 +919,7 @@
 								const match = linkJogo.match(/store\.steampowered\.com\/app\/(\d+)\//);
 								if (match && match[1]) {
 									const gameId = match[1];
-									gameIframe.src = `https://store.steampowered.com/widget/${gameId}/?t=ESTE É O VALOR DO JOGO NA STEAM!!! 
-                DIGITE ESSE MESMO VALOR NO CAMPO ABAIXO PARA CONSEGUIR MAIS DESCONTO!`;
+									gameIframe.src = `https://store.steampowered.com/widget/${gameId}/?t=ESTE É O VALOR DO JOGO NA STEAM!!!`;
 									iframeContainer.style.display = 'flex'; // Exibe o iframe
 									linkInvalido.style.display = 'none'; // Esconde o link inválido
 								} else {

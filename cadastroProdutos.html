@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Produtos</title>
+  <style>
+    .container {
+      display: flex;
+    }
+
+    .left,
+    .right {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .right {
+      background-color: #f4f4f4;
+    }
+
+    .image-preview {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      padding: 5px;
+      margin-top: 10px;
+    }
+  </style>
+  <script type="module">
+    // Certifique-se de que a biblioteca Firebase está sendo importada corretamente
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, push, get, query, equalTo, orderByChild } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+    import { processText } from "./seguranca/seguranca.js";
+
+    async function loadConfig() {
+      const response = await fetch('data.txt');
+      const rawLines = (await response.text()).split('\\n');
+
+      const key = 3;
+      const Data = rawLines.map(line => processText(line.trim(), key));
+
+      return {
+        apiKey: Data[0],
+        authDomain: Data[1],
+        databaseURL: "https://bdksell-default-rtdb.firebaseio.com/",
+        projectId: Data[1],
+        storageBucket: Data[2],
+        messagingSenderId: Data[3],
+        appId: Data[4],
+        measurementId: Data[5]
+      };
+    }
+
+    let databaseInstance;
+    loadConfig().then(config => {
+      const app = initializeApp(config);
+      databaseInstance = getDatabase(app);
+    });
+
+    async function saveProduct() {
+      const name = document.getElementById('productName').value;
+      const categoriaProduto = document.getElementById('categoriaProduto').value;
+      const valorCompra = parseFloat(document.getElementById('valorCompra').value.replace(',', '.'));
+      const valorVenda = parseFloat(document.getElementById('valorVenda').value.replace(',', '.'));
+      const arteProduto = document.getElementById('arteProduto').value;
+      const fundoProduto = document.getElementById('fundoProduto').value;
+      const keyCodinome = document.getElementById('keyCodinome').value;
+
+      if (isNaN(valorCompra) || isNaN(valorVenda)) {
+        console.log("Valor de compra e valor de venda devem ser números.");
+        return;
+      }
+
+      const keyCodinomeExists = await checkKeyCodinomeExists(keyCodinome);
+      if (keyCodinomeExists) {
+        alert(`O keyCodinome: ${keyCodinome} já existe. Por favor, insira um valor diferente.`);
+        return;
+      }
+
+      try {
+        const dbRef = ref(databaseInstance, "produtos");
+        await push(dbRef, {
+          name: name,
+          categoriaProduto: categoriaProduto,
+          valorCompra: valorCompra,
+          valorVenda: valorVenda,
+          arteProduto: arteProduto,
+          fundoProduto: fundoProduto,
+          keyCodinome: keyCodinome,
+          vendido: false
+        });
+        alert("Produto cadastrado com sucesso!");
+        console.log("Produto cadastrado com sucesso!");
+
+        // Limpar os campos de entrada após o cadastro do produto
+        document.getElementById('productName').value = '';
+        document.getElementById('categoriaProduto').value = 'aleatorio';
+        document.getElementById('valorCompra').value = '';
+        document.getElementById('valorVenda').value = '';
+        document.getElementById('arteProduto').value = '';
+        document.getElementById('fundoProduto').value = '';
+        document.getElementById('keyCodinome').value = '';
+
+        // Limpar as prévias das imagens
+        document.getElementById('arteProdutoPreview').src = '';
+        document.getElementById('fundoProdutoPreview').src = '';
+      } catch (error) {
+        console.error("Erro ao cadastrar o produto:", error);
+        console.log("Erro ao cadastrar o produto. Consulte o console para mais detalhes.");
+      }
+    }
+
+    async function checkKeyCodinomeExists(keyCodinome) {
+      const dbRef = ref(databaseInstance, "produtos");
+      const keyCodinomeQuery = query(dbRef, orderByChild("keyCodinome"), equalTo(keyCodinome));
+      const snapshot = await get(keyCodinomeQuery);
+
+      return snapshot.exists();
+    }
+
+    function updateImagePreview(inputId, imageId) {
+      const url = document.getElementById(inputId).value;
+      const imgElement = document.getElementById(imageId);
+      imgElement.src = url;
+    }
+
+    window.saveProduct = saveProduct;
+    window.updateImagePreview = updateImagePreview;
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left">
+      <h1>Cadastro de Produtos</h1>
+      <label for="productName">Nome do jogo / produto:</label><br>
+      <input type="text" id="productName" placeholder="Digite aqui..." /><br><br>
+      <label for="categoriaProduto">Categoria do produto:</label><br>
+      <select id="categoriaProduto">
+        <option value="aleatorio">Key aleatória</option>
+        <option value="premium">Key Premium</option>
+        <option value="encomenda">Jogo encomenda</option>
+        <option value="skin">Skin</option>
+        <option value="especifico">Key específica</option>
+      </select><br><br>
+      <label for="valorCompra">Valor de compra:</label><br>
+      <input type="text" id="valorCompra" placeholder="Digite aqui..." /><br><br>
+      <label for="valorVenda">Valor de venda:</label><br>
+      <input type="text" id="valorVenda" placeholder="Digite aqui..." /><br><br>
+      <label for="arteProduto">Arte do produto:</label><br>
+      <input type="text" id="arteProduto" placeholder="Digite aqui..." oninput="updateImagePreview('arteProduto', 'arteProdutoPreview')" /><br><br>
+      <label for="fundoProduto">Fundo do produto:</label><br>
+      <input type="text" id="fundoProduto" placeholder="Digite aqui..." oninput="updateImagePreview('fundoProduto', 'fundoProdutoPreview')" /><br><br>
+      <label for="keyCodinome">Key ou codinome:</label><br>
+      <input type="text" id="keyCodinome" placeholder="Digite aqui..." /><br><br>
+      <button onclick="saveProduct()">Enviar para banco</button> 
+
+      <!-- Divs para mostrar as prévias das imagens -->
+      <div class="image-preview">
+        <div id="arteProdutoContainer">
+          <label>Prévia da Arte do Produto:</label>
+          <img id="arteProdutoPreview" alt="Prévia da Arte do Produto" />
+        </div>
+        
+        <div id="fundoProdutoContainer">
+          <label>Prévia do Fundo do Produto:</label>
+          <img id="fundoProdutoPreview" alt="Prévia do Fundo do Produto" />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
