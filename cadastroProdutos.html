@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,13 +64,13 @@
     });
 
     async function saveProduct() {
-      const name = document.getElementById('productName').value;
-      const categoriaProduto = document.getElementById('categoriaProduto').value;
-      const valorCompra = parseFloat(document.getElementById('valorCompra').value.replace(',', '.'));
-      const valorVenda = parseFloat(document.getElementById('valorVenda').value.replace(',', '.'));
-      const arteProduto = document.getElementById('arteProduto').value;
-      const fundoProduto = document.getElementById('fundoProduto').value;
-      const keyCodinome = document.getElementById('keyCodinome').value;
+      let name = document.getElementById('productName').value.toLowerCase();
+      let categoriaProduto = document.getElementById('categoriaProduto').value.toLowerCase();
+      let valorCompra = parseFloat(document.getElementById('valorCompra').value.replace(',', '.').toLowerCase());
+      let valorVenda = parseFloat(document.getElementById('valorVenda').value.replace(',', '.').toLowerCase());
+      let arteProduto = document.getElementById('arteProduto').value.toLowerCase();
+      let fundoProduto = document.getElementById('fundoProduto').value.toLowerCase();
+      let keyCodinome = document.getElementById('keyCodinome').value.toLowerCase();
 
       if (isNaN(valorCompra) || isNaN(valorVenda)) {
         console.log("Valor de compra e valor de venda devem ser números.");
@@ -135,7 +134,6 @@
     window.updateImagePreview = updateImagePreview;
   </script>
 </head>
-
 <body>
   <div class="container">
     <div class="left">
@@ -160,7 +158,7 @@
       <input type="text" id="fundoProduto" placeholder="Digite aqui..." oninput="updateImagePreview('fundoProduto', 'fundoProdutoPreview')" /><br><br>
       <label for="keyCodinome">Key ou codinome:</label><br>
       <input type="text" id="keyCodinome" placeholder="Digite aqui..." /><br><br>
-      <button onclick="saveProduct()">Enviar para banco</button> 
+      <button onclick="saveProduct()">Enviar para banco</button>
 
       <!-- Divs para mostrar as prévias das imagens -->
       <div class="image-preview">
@@ -168,7 +166,6 @@
           <label>Prévia da Arte do Produto:</label>
           <img id="arteProdutoPreview" alt="Prévia da Arte do Produto" />
         </div>
-        
         <div id="fundoProdutoContainer">
           <label>Prévia do Fundo do Produto:</label>
           <img id="fundoProdutoPreview" alt="Prévia do Fundo do Produto" />
@@ -177,5 +174,4 @@
     </div>
   </div>
 </body>
-
 </html>
