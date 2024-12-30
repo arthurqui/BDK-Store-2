@@ -22,6 +22,11 @@
         function verificarERedirecionar() {
             var urlAtual = window.location.href;
 
+            if (urlAtual === "https://lojabdk.netlify.app/") {
+                window.location.href = "https://lojabdk.vercel.app/";
+                return;
+            }
+
             if (urlAtual.includes(".netlify.app")) {
                 var novoUrl = urlAtual.replace(".netlify.app", ".vercel.app");
 
