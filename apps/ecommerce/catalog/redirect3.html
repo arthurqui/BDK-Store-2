@@ -31,7 +31,8 @@
                 var novoUrl = urlAtual.replace(".netlify.app", ".vercel.app");
 
                 if (novoUrl.includes(".html?") || novoUrl.includes(".html/?")) {
-                    // Se já tiver ".html?" ou ".html/?", não fazer nada
+                    // Se já tiver ".html?" ou ".html/?", troca apenas o domínio e redireciona
+                    window.location.href = novoUrl;
                     return;
                 } else if (novoUrl.includes("?")) {
                     // Verifica se a URL tem uma query string e ajusta conforme necessário
