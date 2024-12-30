@@ -1,5 +1,5 @@
-document.addEventListener('', function () { // Descomente essa linha para codar
-  //document.addEventListener('DOMContentLoaded', function () { //descomente essa linha para colocar em produção
+//document.addEventListener('', function () { // Descomente essa linha para codar
+  document.addEventListener('DOMContentLoaded', function () { //descomente essa linha para colocar em produção
 
 
 
