@@ -20,7 +20,27 @@
 
 
 
-	<script> function verificarERedirecionar() { var urlAtual = window.location.href; if (urlAtual.includes(".netlify.app")) { var novoUrl = urlAtual.replace(".netlify.app", ".vercel.app"); window.location.href = novoUrl; } } window.onload = verificarERedirecionar; </script>
+	<script>
+        function verificarERedirecionar() {
+            var urlAtual = window.location.href;
+
+            if (urlAtual.includes(".netlify.app")) {
+                var novoUrl = urlAtual.replace(".netlify.app", ".vercel.app");
+
+                if (novoUrl.includes("?")) {
+                    // Verifica se a URL tem uma query string e ajusta conforme necessário
+                    novoUrl = novoUrl.replace("/?", ".html/?").replace("?", ".html?");
+                } else if (!novoUrl.endsWith(".html")) {
+                    // Adiciona .html ao final se não tiver query string e não terminar com .html
+                    novoUrl += ".html";
+                }
+
+                window.location.href = novoUrl;
+            }
+        }
+
+        window.onload = verificarERedirecionar;
+    </script>
 	<meta charset="utf-8">
 	<meta name="description" content="Loja BDK, a loja de keys para steam com preços menores que da Steam.">
 	<meta name="keywords" content="BDK, Brasil Drop Keys, paraiba bdk, keys, steam ,skins">
@@ -74,6 +94,7 @@
 		let remainingClicks = 2;
 
 		window.onload = function () {
+			verificarERedirecionar;
 			const params = new URLSearchParams(window.location.search);
 			const buttonTitle = params.get('titulo');
 			const imageUrl = params.get('img');
