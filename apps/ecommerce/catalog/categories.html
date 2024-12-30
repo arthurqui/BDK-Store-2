@@ -15,7 +15,10 @@
             if (urlAtual.includes(".netlify.app")) {
                 var novoUrl = urlAtual.replace(".netlify.app", ".vercel.app");
 
-                if (novoUrl.includes("?")) {
+                if (novoUrl.includes(".html?") || novoUrl.includes(".html/?")) {
+                    // Se já tiver ".html?" ou ".html/?", não fazer nada
+                    return;
+                } else if (novoUrl.includes("?")) {
                     // Verifica se a URL tem uma query string e ajusta conforme necessário
                     novoUrl = novoUrl.replace("/?", ".html/?").replace("?", ".html?");
                 } else if (!novoUrl.endsWith(".html")) {
